@@ -225,7 +225,7 @@ export default function TravelPage() {
 
                   {/* PHONE */}
                   
-                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    href={`tel:${phone.replace(/ /g, "")}`}
                     className="mt-3 flex items-center gap-2 text-[10px] font-light text-white/25 transition-colors hover:text-white/60"
                   >
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -260,7 +260,7 @@ export default function TravelPage() {
               Request a Trip
             </Link>
             
-              href={`tel:${phone.replace(/\s/g, "")}`}
+              href={`tel:${phone.replace(/ /g, "")}`}
               className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] font-light text-white/50 transition-all hover:border-white/20 hover:text-white"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
