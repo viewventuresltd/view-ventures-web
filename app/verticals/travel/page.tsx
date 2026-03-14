@@ -224,10 +224,7 @@ export default function TravelPage() {
                   </div>
 
                   {/* PHONE */}
-                  
-                    href="tel:+302310236184"
-                    className="mt-3 flex items-center gap-2 text-[10px] font-light text-white/25 transition-colors hover:text-white/60"
-                  >{"📞 " + phone}</a>
+                  <a href="tel:+302310236184" className="mt-3 inline-block text-[10px] font-light text-white/25 transition-colors hover:text-white/60">📞 +30 2310 236184</a>
 
                   <p className="mt-2 font-mono text-[8px] font-light uppercase tracking-[0.12em] text-white/20">
                     {trip.availability}
