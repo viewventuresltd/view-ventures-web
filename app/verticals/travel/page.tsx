@@ -251,10 +251,7 @@ export default function TravelPage() {
             >
               Request a Trip
             </Link>
-            
-              href="tel:+302310236184"
-              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] font-light text-white/50 transition-all hover:border-white/20 hover:text-white"
-            >{"📞 +30 2310 236184"}</a>
+            <a href="tel:+302310236184" className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] font-light text-white/50 transition-all hover:border-white/20 hover:text-white">{"📞 +30 2310 236184"}</a>
           </div>
         </div>
 
