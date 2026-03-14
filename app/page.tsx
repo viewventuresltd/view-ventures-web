@@ -5,20 +5,18 @@ import { SiteHeader } from "./components/site-header";
 import { ViewMark } from "./components/view-mark";
 import { newsItems, verticals } from "./lib/site-data";
 
+const email = "hello@viewventures.co";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
-
       <main className="mx-auto w-full max-w-6xl px-5 pb-24 sm:px-8">
 
         {/* HERO */}
         <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden py-24 text-center">
-          {/* Grid */}
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
-          {/* Glow */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
-
           <Reveal className="relative z-10 flex flex-col items-center">
             <ViewMark
               size={128}
@@ -33,11 +31,10 @@ export default function Home() {
             <p className="mt-3 font-sans text-[11px] font-light tracking-[0.65em] text-white/35 uppercase">
               Ventures
             </p>
-            <p className="mt-10 font-display text-xl italic text-white/22">
+            <p className="mt-10 font-display text-xl italic text-white/20">
               Third generation. First venture.
             </p>
           </Reveal>
-
           <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
             <Link
               href="/contact"
@@ -52,12 +49,10 @@ export default function Home() {
               Explore Verticals
             </Link>
           </Reveal>
-
-          {/* Bottom meta strip */}
           <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-8">
             {["Real Estate", "Transportation", "PropTech", "Wellness", "Trade"].map((item) => (
               <span key={item} className="flex items-center gap-2 font-mono text-[9px] font-light uppercase tracking-[0.2em] text-white/20">
-                <span className="h-px w-4 bg-gold/50" />
+                <span className="inline-block h-px w-4 bg-[#C49A2E] opacity-50" />
                 {item}
               </span>
             ))}
@@ -67,14 +62,78 @@ export default function Home() {
         {/* ABOUT */}
         <section id="about" className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
-              01 — About
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">01 —
+cat > app/page.tsx << 'EOF'
+import Link from "next/link";
+import { Reveal } from "./components/reveal";
+import { SiteFooter } from "./components/site-footer";
+import { SiteHeader } from "./components/site-header";
+import { ViewMark } from "./components/view-mark";
+import { newsItems, verticals } from "./lib/site-data";
+
+const email = "hello@viewventures.co";
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-[#07090F] text-white">
+      <SiteHeader />
+      <main className="mx-auto w-full max-w-6xl px-5 pb-24 sm:px-8">
+
+        {/* HERO */}
+        <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden py-24 text-center">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
+          <Reveal className="relative z-10 flex flex-col items-center">
+            <ViewMark
+              size={128}
+              stroke="#FFFFFF"
+              accent="#C49A2E"
+              strokeWidth={3.5}
+              className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)]"
+            />
+            <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.18em] text-white uppercase sm:text-7xl">
+              View
+            </h1>
+            <p className="mt-3 font-sans text-[11px] font-light tracking-[0.65em] text-white/35 uppercase">
+              Ventures
             </p>
+            <p className="mt-10 font-display text-xl italic text-white/20">
+              Third generation. First venture.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/contact"
+              className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90"
+            >
+              Contact Us
+            </Link>
+            <Link
+              href="/verticals"
+              className="rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-white/60 transition-all hover:border-white/25 hover:text-white"
+            >
+              Explore Verticals
+            </Link>
+          </Reveal>
+          <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-8">
+            {["Real Estate", "Transportation", "PropTech", "Wellness", "Trade"].map((item) => (
+              <span key={item} className="flex items-center gap-2 font-mono text-[9px] font-light uppercase tracking-[0.2em] text-white/20">
+                <span className="inline-block h-px w-4 bg-[#C49A2E] opacity-50" />
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* ABOUT */}
+        <section id="about" className="border-t border-white/[0.06] py-20 sm:py-24">
+          <Reveal>
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">01 — About</p>
             <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
               From operational roots to a broader strategic platform.
             </h2>
-            <p className="mt-5 max-w-2xl text-pretty text-sm font-light leading-7 text-white/40">
-              View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors. The objective is a modern portfolio that compounds value through execution, assets, and technology.
+            <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">
+              View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors.
             </p>
           </Reveal>
           <div className="mt-10 grid gap-2 md:grid-cols-2">
@@ -88,8 +147,8 @@ export default function Home() {
               </article>
             </Reveal>
             <Reveal delay={0.08}>
-              <article className="rounded-2xl border border-gold/20 bg-[rgba(196,154,46,0.03)] p-7 transition-colors hover:border-gold/35">
-                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-gold/60">Direction</p>
+              <article className="rounded-2xl border border-[#C49A2E]/20 bg-[rgba(196,154,46,0.03)] p-7 transition-colors hover:border-[#C49A2E]/35">
+                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-[#C49A2E]/60">Direction</p>
                 <h3 className="mt-4 text-lg font-light tracking-tight text-white">Strategic Multi-Vertical Growth</h3>
                 <p className="mt-3 text-sm font-light leading-7 text-white/35">
                   Expanding selectively into real estate, wellness, and technology while preserving execution quality.
@@ -102,9 +161,7 @@ export default function Home() {
         {/* VERTICALS */}
         <section id="verticals" className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
-              02 — Verticals
-            </p>
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">02 — Verticals</p>
             <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
               Five focused domains under one cohesive company.
             </h2>
@@ -117,15 +174,13 @@ export default function Home() {
               <Reveal key={item.slug} delay={index * 0.06}>
                 <Link
                   href={`/verticals/${item.slug}`}
-                  className="group block h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:border-gold/30 hover:bg-[rgba(196,154,46,0.02)]"
+                  className="group block h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:border-[#C49A2E]/30 hover:bg-[rgba(196,154,46,0.02)]"
                 >
-                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.18em] text-white/25">
-                    {item.status}
-                  </p>
+                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.18em] text-white/25">{item.status}</p>
                   <h3 className="mt-3 text-lg font-light tracking-tight text-white">{item.name}</h3>
                   <p className="mt-3 text-sm font-light leading-7 text-white/35">{item.summary}</p>
-                  <p className="mt-4 font-mono text-[9px] font-light uppercase tracking-[0.18em] text-gold/50 opacity-0 transition-opacity group-hover:opacity-100">
-                    View →
+                  <p className="mt-4 font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[#C49A2E]/50 opacity-0 transition-opacity group-hover:opacity-100">
+                    View
                   </p>
                 </Link>
               </Reveal>
@@ -136,9 +191,7 @@ export default function Home() {
         {/* NEWS */}
         <section className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
-              03 — News
-            </p>
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">03 — News</p>
             <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
               Latest updates from View Ventures.
             </h2>
@@ -168,9 +221,7 @@ export default function Home() {
         <section className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
             <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 sm:p-12">
-              <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
-                04 — Contact
-              </p>
+              <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">04 — Contact</p>
               <h2 className="mt-6 max-w-2xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
                 Ready to discuss partnerships, projects, or investment opportunities?
               </h2>
@@ -182,10 +233,10 @@ export default function Home() {
                   Get in Touch
                 </Link>
                 
-                  href="mailto:{`hello@viewventures.co`}"
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-[11px] font-light tracking-[0.12em] text-white/50 transition-all hover:border-gold/40 hover:text-white"
+                  href={`mailto:${email}`}
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-[11px] font-light tracking-[0.12em] text-white/50 transition-all hover:border-[#C49A2E]/40 hover:text-white"
                 >
-                  {`hello@viewventures.co`}
+                  {email}
                 </a>
               </div>
             </article>
@@ -193,7 +244,6 @@ export default function Home() {
         </section>
 
       </main>
-
       <SiteFooter />
     </div>
   );

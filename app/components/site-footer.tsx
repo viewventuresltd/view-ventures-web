@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ViewMark } from "./view-mark";
 
 export function SiteFooter() {
+  const email = "hello@viewventures.co";
   return (
     <footer className="border-t border-white/[0.06] bg-[#07090F]">
       <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8">
@@ -20,7 +21,6 @@ export function SiteFooter() {
               Thessaloniki, Greece · IKE
             </p>
           </div>
-
           <div className="flex gap-16">
             <div className="flex flex-col gap-3">
               <p className="font-mono text-[9px] font-light uppercase tracking-[0.24em] text-white/20">
@@ -41,7 +41,6 @@ export function SiteFooter() {
                 </Link>
               ))}
             </div>
-
             <div className="flex flex-col gap-3">
               <p className="font-mono text-[9px] font-light uppercase tracking-[0.24em] text-white/20">
                 Verticals
@@ -64,16 +63,15 @@ export function SiteFooter() {
             </div>
           </div>
         </div>
-
         <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/20">
-            © 2026 View Ventures IKE. All rights reserved.
+            2026 View Ventures IKE. All rights reserved.
           </p>
           
-            href="mailto:{`hello@viewventures.co`}"
+            href={`mailto:${email}`}
             className="font-mono text-[9px] font-light tracking-[0.12em] text-white/20 transition-colors hover:text-white/50"
           >
-            {`hello@viewventures.co`}
+            {email}
           </a>
         </div>
       </div>
