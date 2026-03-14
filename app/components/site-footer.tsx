@@ -70,10 +70,10 @@ export function SiteFooter() {
             © 2026 View Ventures IKE. All rights reserved.
           </p>
           
-            href="mailto:hello@viewventures.co"
+            href="mailto:{`hello@viewventures.co`}"
             className="font-mono text-[9px] font-light tracking-[0.12em] text-white/20 transition-colors hover:text-white/50"
           >
-            hello@viewventures.co
+            {`hello@viewventures.co`}
           </a>
         </div>
       </div>

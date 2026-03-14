@@ -182,10 +182,10 @@ export default function Home() {
                   Get in Touch
                 </Link>
                 
-                  href="mailto:hello@viewventures.co"
+                  href="mailto:{`hello@viewventures.co`}"
                   className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-[11px] font-light tracking-[0.12em] text-white/50 transition-all hover:border-gold/40 hover:text-white"
                 >
-                  hello@viewventures.co
+                  {`hello@viewventures.co`}
                 </a>
               </div>
             </article>
