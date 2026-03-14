@@ -11,17 +11,17 @@ const milestones = [
 
 export default function TechPage() {
   return (
-    <div className="min-h-screen bg-background text-ink-1">
+    <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
       <main className="mx-auto w-full max-w-6xl px-5 pb-20 pt-10 sm:px-8">
         <Reveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-ink-2">
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-white/40">
             Vertical / Tech
           </p>
-          <h1 className="mt-4 max-w-4xl text-balance font-display text-5xl leading-tight sm:text-6xl">
+          <h1 className="mt-4 max-w-4xl text-balance font-sans text-5xl leading-tight sm:text-6xl">
             Technology vertical entering final MVP launch preparation.
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-ink-2 sm:text-lg">
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
             The product track is approaching launch readiness. This page is
             structured to expand into feature breakdowns, release notes, and
             adoption metrics immediately after MVP goes live.
@@ -45,20 +45,20 @@ export default function TechPage() {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <article className="rounded-2xl border border-line/80 bg-white/80 p-7">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-2">
+            <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-7">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Milestone Tracker
               </p>
               <div className="mt-5 space-y-3">
                 {milestones.map((item) => (
                   <div
                     key={item.step}
-                    className="flex items-center justify-between rounded-lg border border-line/70 bg-cream-2 px-4 py-3"
+                    className="flex items-center justify-between rounded-lg border border-white/[0.06]/70 bg-white/[0.04]/[0.02] px-4 py-3"
                   >
-                    <p className="text-sm text-ink-1">{item.step}</p>
+                    <p className="text-sm text-white">{item.step}</p>
                     <span
                       className={`text-[10px] font-semibold uppercase tracking-[0.14em] ${
-                        item.done ? "text-[#3f6f31]" : "text-ink-2"
+                        item.done ? "text-[#3f6f31]" : "text-white/40"
                       }`}
                     >
                       {item.done ? "Complete" : "Pending"}

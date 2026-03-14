@@ -14,17 +14,17 @@ export default function TransportationPage() {
   const maxRides = Math.max(...routeStats.map((item) => item.rides));
 
   return (
-    <div className="min-h-screen bg-background text-ink-1">
+    <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
       <main className="mx-auto w-full max-w-6xl px-5 pb-20 pt-10 sm:px-8">
         <Reveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-ink-2">
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-white/40">
             Vertical / Transportation
           </p>
-          <h1 className="mt-4 max-w-4xl text-balance font-display text-5xl leading-tight sm:text-6xl">
+          <h1 className="mt-4 max-w-4xl text-balance font-sans text-5xl leading-tight sm:text-6xl">
             Route intelligence and movement analytics.
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-ink-2 sm:text-lg">
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
             This prototype combines directional mapping and volume visualization.
             Once your real data is ready, we can plug live route feeds and
             interactive analytics modules.
@@ -33,11 +33,11 @@ export default function TransportationPage() {
 
         <section className="mt-10 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
           <Reveal>
-            <article className="rounded-2xl border border-line/80 bg-white/80 p-6">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-2">
+            <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-6">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Route Map Prototype
               </p>
-              <svg viewBox="0 0 680 360" className="mt-5 w-full rounded-xl border border-line/70 bg-cream-1 p-4">
+              <svg viewBox="0 0 680 360" className="mt-5 w-full rounded-xl border border-white/[0.06]/70 bg-white/[0.04]/[0.02] p-4">
                 <circle cx="210" cy="200" r="8" fill="#081630" />
                 <circle cx="300" cy="250" r="8" fill="#1456B4" />
                 <circle cx="410" cy="180" r="8" fill="#1456B4" />
@@ -88,18 +88,18 @@ export default function TransportationPage() {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <article className="rounded-2xl border border-line/80 bg-white/80 p-6">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-2">
+            <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-6">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Monthly Passenger Volume
               </p>
               <div className="mt-5 space-y-4">
                 {routeStats.map((item) => (
                   <div key={item.city}>
-                    <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.14em] text-ink-2">
+                    <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.14em] text-white/40">
                       <span>{item.city}</span>
                       <span>{item.rides}</span>
                     </div>
-                    <div className="h-2 rounded-full bg-cream-1">
+                    <div className="h-2 rounded-full bg-white/[0.04]/[0.02]">
                       <div
                         className="h-full rounded-full bg-[linear-gradient(90deg,#1456B4,#3A8FD4)]"
                         style={{ width: `${(item.rides / maxRides) * 100}%` }}

@@ -11,17 +11,17 @@ const roadmap = [
 
 export default function WellnessPage() {
   return (
-    <div className="min-h-screen bg-background text-ink-1">
+    <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
       <main className="mx-auto w-full max-w-6xl px-5 pb-20 pt-10 sm:px-8">
         <Reveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-ink-2">
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-white/40">
             Vertical / Wellness
           </p>
-          <h1 className="mt-4 max-w-4xl text-balance font-display text-5xl leading-tight sm:text-6xl">
+          <h1 className="mt-4 max-w-4xl text-balance font-sans text-5xl leading-tight sm:text-6xl">
             Wellness vertical currently in structured development.
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-ink-2 sm:text-lg">
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
             This category is intentionally marked as ongoing. The section is
             ready to host concept documentation, pilot metrics, and launch
             updates as soon as the project model is finalized.
@@ -46,18 +46,18 @@ export default function WellnessPage() {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <article className="rounded-2xl border border-line/80 bg-white/80 p-7">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-2">
+            <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-7">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Roadmap
               </p>
               <div className="mt-5 space-y-3">
                 {roadmap.map((item) => (
                   <div
                     key={item.phase}
-                    className="flex items-center justify-between rounded-lg border border-line/70 bg-cream-2 px-4 py-3"
+                    className="flex items-center justify-between rounded-lg border border-white/[0.06]/70 bg-white/[0.04]/[0.02] px-4 py-3"
                   >
-                    <p className="text-sm text-ink-1">{item.phase}</p>
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-2">
+                    <p className="text-sm text-white">{item.phase}</p>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
                       {item.status}
                     </span>
                   </div>
