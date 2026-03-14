@@ -5,197 +5,185 @@ import { SiteHeader } from "./components/site-header";
 import { ViewMark } from "./components/view-mark";
 import { newsItems, verticals } from "./lib/site-data";
 
-function SectionHeader({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="max-w-3xl">
-      <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-ink-2">
-        {eyebrow}
-      </p>
-      <h2 className="mt-4 text-balance font-display text-4xl leading-tight text-ink-1 sm:text-5xl">
-        {title}
-      </h2>
-      <p className="mt-6 text-pretty text-base leading-7 text-ink-2 sm:text-lg">
-        {description}
-      </p>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-ink-1">
+    <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
 
       <main className="mx-auto w-full max-w-6xl px-5 pb-24 sm:px-8">
-        <section className="relative mt-8 overflow-hidden rounded-[1.8rem] border border-white/15 bg-[linear-gradient(155deg,#0b1220_4%,#111d31_46%,#152741_100%)] px-6 pb-18 pt-16 sm:px-12 sm:pt-20">
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:74px_74px] [mask-image:radial-gradient(circle_at_center,black_23%,transparent_80%)]" />
-          <div className="pointer-events-none absolute left-1/2 top-[46%] h-[32rem] w-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(58,143,212,0.16)_0%,rgba(196,154,46,0.06)_38%,transparent_72%)]" />
 
-          <Reveal className="relative z-10 flex flex-col items-center text-center">
+        {/* HERO */}
+        <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden py-24 text-center">
+          {/* Grid */}
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
+          {/* Glow */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
+
+          <Reveal className="relative z-10 flex flex-col items-center">
             <ViewMark
-              size={132}
+              size={128}
               stroke="#FFFFFF"
               accent="#C49A2E"
-              strokeWidth={3.7}
-              className="drop-shadow-[0_0_20px_rgba(58,143,212,0.24)]"
+              strokeWidth={3.5}
+              className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)]"
             />
-            <h1 className="mt-10 max-w-4xl text-balance text-4xl font-light leading-tight text-white sm:text-6xl">
-              View Ventures
+            <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.18em] text-white uppercase sm:text-7xl">
+              View
             </h1>
-            <p className="mt-6 max-w-3xl text-pretty text-base leading-7 text-[rgba(255,255,255,0.62)] sm:text-lg">
-              A modern multi-sector company operating across transportation,
-              travel, real estate, wellness, and technology.
+            <p className="mt-3 font-sans text-[11px] font-light tracking-[0.65em] text-white/35 uppercase">
+              Ventures
             </p>
-            <p className="mt-8 font-display text-2xl italic text-[rgba(255,255,255,0.42)]">
+            <p className="mt-10 font-display text-xl italic text-white/22">
               Third generation. First venture.
             </p>
           </Reveal>
 
-          <Reveal delay={0.1} className="relative z-10 mt-10 flex flex-wrap justify-center gap-3">
+          <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
             <Link
               href="/contact"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold tracking-wide text-navy-1 transition-colors hover:bg-cream-1"
+              className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90"
             >
               Contact Us
             </Link>
             <Link
               href="/verticals"
-              className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold tracking-wide text-white transition-colors hover:border-white/35"
+              className="rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-white/60 transition-all hover:border-white/25 hover:text-white"
             >
               Explore Verticals
             </Link>
           </Reveal>
+
+          {/* Bottom meta strip */}
+          <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-8">
+            {["Real Estate", "Transportation", "PropTech", "Wellness", "Trade"].map((item) => (
+              <span key={item} className="flex items-center gap-2 font-mono text-[9px] font-light uppercase tracking-[0.2em] text-white/20">
+                <span className="h-px w-4 bg-gold/50" />
+                {item}
+              </span>
+            ))}
+          </div>
         </section>
 
-        <section id="about" className="border-t border-line/70 py-18 sm:py-22">
+        {/* ABOUT */}
+        <section id="about" className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <SectionHeader
-              eyebrow="About Us"
-              title="From operational roots to a broader strategic platform."
-              description="View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors. The objective is a modern portfolio that compounds value through execution, assets, and technology."
-            />
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
+              01 — About
+            </p>
+            <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
+              From operational roots to a broader strategic platform.
+            </h2>
+            <p className="mt-5 max-w-2xl text-pretty text-sm font-light leading-7 text-white/40">
+              View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors. The objective is a modern portfolio that compounds value through execution, assets, and technology.
+            </p>
           </Reveal>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div className="mt-10 grid gap-2 md:grid-cols-2">
             <Reveal>
-              <article className="rounded-2xl border border-line/80 bg-cream-2 p-7">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-ink-2">
-                  Foundation
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-ink-1">
-                  Operational Discipline
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-ink-2">
-                  Built on reliability, route operations, and long-term
-                  partnerships in real-world execution environments.
+              <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7 transition-colors hover:border-white/10">
+                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-white/25">Foundation</p>
+                <h3 className="mt-4 text-lg font-light tracking-tight text-white">Operational Discipline</h3>
+                <p className="mt-3 text-sm font-light leading-7 text-white/35">
+                  Built on reliability, route operations, and long-term partnerships in real-world execution environments.
                 </p>
               </article>
             </Reveal>
             <Reveal delay={0.08}>
-              <article className="rounded-2xl border border-[#b39a5d66] bg-[linear-gradient(140deg,rgba(196,154,46,0.06),rgba(255,255,255,0.8))] p-7">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-ink-2">
-                  Direction
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-ink-1">
-                  Strategic Multi-Vertical Growth
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-ink-2">
-                  Expanding selectively into travel, real estate, wellness, and
-                  technology while preserving execution quality.
+              <article className="rounded-2xl border border-gold/20 bg-[rgba(196,154,46,0.03)] p-7 transition-colors hover:border-gold/35">
+                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-gold/60">Direction</p>
+                <h3 className="mt-4 text-lg font-light tracking-tight text-white">Strategic Multi-Vertical Growth</h3>
+                <p className="mt-3 text-sm font-light leading-7 text-white/35">
+                  Expanding selectively into real estate, wellness, and technology while preserving execution quality.
                 </p>
               </article>
             </Reveal>
           </div>
         </section>
 
-        <section id="verticals" className="border-t border-line/70 py-18 sm:py-22">
+        {/* VERTICALS */}
+        <section id="verticals" className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <SectionHeader
-              eyebrow="Verticals"
-              title="Five focused domains under one cohesive company."
-              description="Each vertical has a dedicated roadmap. Click into each category for ongoing details, materials, and data visualizations."
-            />
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
+              02 — Verticals
+            </p>
+            <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
+              Five focused domains under one cohesive company.
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">
+              Each vertical has a dedicated roadmap. Click into each category for details and materials.
+            </p>
           </Reveal>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {verticals.map((item, index) => (
               <Reveal key={item.slug} delay={index * 0.06}>
                 <Link
                   href={`/verticals/${item.slug}`}
-                  className="block h-full rounded-2xl border border-line/80 bg-white/72 p-6 transition-colors hover:border-[#b39a5d99]"
+                  className="group block h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:border-gold/30 hover:bg-[rgba(196,154,46,0.02)]"
                 >
-                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-2">
+                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.18em] text-white/25">
                     {item.status}
                   </p>
-                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-ink-1">
-                    {item.name}
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-ink-2">{item.summary}</p>
+                  <h3 className="mt-3 text-lg font-light tracking-tight text-white">{item.name}</h3>
+                  <p className="mt-3 text-sm font-light leading-7 text-white/35">{item.summary}</p>
+                  <p className="mt-4 font-mono text-[9px] font-light uppercase tracking-[0.18em] text-gold/50 opacity-0 transition-opacity group-hover:opacity-100">
+                    View →
+                  </p>
                 </Link>
               </Reveal>
             ))}
           </div>
         </section>
 
-        <section className="border-t border-line/70 py-18 sm:py-22">
+        {/* NEWS */}
+        <section className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <SectionHeader
-              eyebrow="News"
-              title="Latest updates from View Ventures."
-              description="A running feed for company announcements, vertical milestones, and strategic updates."
-            />
+            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
+              03 — News
+            </p>
+            <h2 className="mt-5 max-w-3xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
+              Latest updates from View Ventures.
+            </h2>
           </Reveal>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-2 md:grid-cols-3">
             {newsItems.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.06}>
-                <article className="h-full rounded-2xl border border-line/80 bg-cream-2 p-6">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-ink-2">
-                    {item.date}
-                  </p>
-                  <h3 className="mt-3 text-lg font-semibold tracking-tight text-ink-1">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-ink-2">{item.summary}</p>
+                <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/25">{item.date}</p>
+                  <h3 className="mt-3 text-base font-light tracking-tight text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm font-light leading-7 text-white/35">{item.summary}</p>
                 </article>
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.14} className="mt-8">
+          <Reveal delay={0.14} className="mt-6">
             <Link
               href="/news"
-              className="inline-flex rounded-full border border-line bg-white px-5 py-3 text-sm font-semibold tracking-wide text-ink-1 transition-colors hover:border-[#b39a5d] hover:text-navy-1"
+              className="inline-flex rounded-full border border-white/[0.08] bg-white/[0.02] px-5 py-3 font-mono text-[9px] font-light uppercase tracking-[0.22em] text-white/40 transition-all hover:border-white/20 hover:text-white"
             >
               View All News
             </Link>
           </Reveal>
         </section>
 
-        <section className="border-t border-line/70 py-18 sm:py-22">
+        {/* CONTACT */}
+        <section className="border-t border-white/[0.06] py-20 sm:py-24">
           <Reveal>
-            <article className="rounded-3xl border border-line/80 bg-[linear-gradient(130deg,rgba(255,255,255,0.92),rgba(246,243,236,0.92))] p-8 sm:p-11">
-              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-ink-2">
-                Contact
+            <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 sm:p-12">
+              <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">
+                04 — Contact
               </p>
-              <h2 className="mt-5 max-w-3xl text-balance font-display text-4xl leading-tight text-ink-1 sm:text-5xl">
-                Ready to discuss partnerships, projects, or investment
-                opportunities?
+              <h2 className="mt-6 max-w-2xl text-balance text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">
+                Ready to discuss partnerships, projects, or investment opportunities?
               </h2>
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/contact"
-                  className="rounded-full bg-navy-1 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0f2752]"
+                  className="rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90"
                 >
-                  Open Contact Page
+                  Get in Touch
                 </Link>
-                <a
+                
                   href="mailto:hello@viewventures.co"
-                  className="rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold text-ink-1 transition-colors hover:border-[#b39a5d] hover:text-navy-1"
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-[11px] font-light tracking-[0.12em] text-white/50 transition-all hover:border-gold/40 hover:text-white"
                 >
                   hello@viewventures.co
                 </a>
@@ -203,6 +191,7 @@ export default function Home() {
             </article>
           </Reveal>
         </section>
+
       </main>
 
       <SiteFooter />

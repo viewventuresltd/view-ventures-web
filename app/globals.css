@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --surface-0: #eeece6;
-  --surface-1: #f6f4ef;
-  --surface-2: #ffffff;
-  --cream-1: #f4f3ef;
-  --cream-2: #f8f6f1;
-  --ink-1: #101622;
-  --ink-2: #5c6576;
-  --line: #d8d2c3;
-  --accent: #1456b4;
+  --bg:     #07090F;
+  --bg-1:   #0C0F1A;
+  --bg-2:   #111520;
+  --bg-3:   #181D2E;
+  --line:   rgba(255,255,255,0.07);
+  --line-2: rgba(255,255,255,0.03);
+  --ink-1:  #FFFFFF;
+  --ink-2:  rgba(255,255,255,0.45);
+  --ink-3:  rgba(255,255,255,0.22);
   --navy-1: #081630;
   --navy-2: #101a2c;
-  --gold: #c49a2e;
-  --mist: rgba(255, 255, 255, 0.58);
+  --accent: #1456B4;
+  --sky:    #3A8FD4;
+  --gold:   #C49A2E;
+  --gold-2: #9B7215;
+  --cream-1: #F4F3EF;
+  --cream-2: #F8F6F1;
+  --surface-2: #ffffff;
+  --mist: rgba(255,255,255,0.06);
 }
 
 @theme inline {
-  --color-background: var(--surface-0);
+  --color-background: var(--bg);
   --color-foreground: var(--ink-1);
   --color-ink-1: var(--ink-1);
   --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
   --color-surface-2: var(--surface-2);
   --color-cream-1: var(--cream-1);
   --color-cream-2: var(--cream-2);
@@ -30,27 +37,23 @@
   --color-navy-2: var(--navy-2);
   --color-gold: var(--gold);
   --color-mist: var(--mist);
-  --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", "Helvetica", sans-serif;
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --font-sans: "Geist", "Helvetica Neue", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-display: "Cormorant Garamond", Georgia, serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   position: relative;
   margin: 0;
   color: var(--ink-1);
-  background:
-    radial-gradient(circle at 0% 0%, #e4e6df 0%, transparent 38%),
-    radial-gradient(circle at 100% 8%, #efe9dc 0%, transparent 32%),
-    linear-gradient(180deg, var(--surface-0) 0%, var(--surface-1) 45%, var(--surface-2) 100%);
-  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", "Helvetica", sans-serif;
+  background: var(--bg);
+  font-family: "Geist", "Helvetica Neue", sans-serif;
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -61,10 +64,10 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 40;
-  opacity: 0.022;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 25%, white);
+  background: color-mix(in oklab, var(--gold) 30%, transparent);
 }
