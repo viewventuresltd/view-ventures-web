@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --surface-0: #eeece6;
+  --surface-1: #f6f4ef;
+  --surface-2: #ffffff;
+  --cream-1: #f4f3ef;
+  --cream-2: #f8f6f1;
+  --ink-1: #101622;
+  --ink-2: #5c6576;
+  --line: #d8d2c3;
+  --accent: #1456b4;
+  --navy-1: #081630;
+  --navy-2: #101a2c;
+  --gold: #c49a2e;
+  --mist: rgba(255, 255, 255, 0.58);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--surface-0);
+  --color-foreground: var(--ink-1);
+  --color-ink-1: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-surface-2: var(--surface-2);
+  --color-cream-1: var(--cream-1);
+  --color-cream-2: var(--cream-2);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-navy-1: var(--navy-1);
+  --color-navy-2: var(--navy-2);
+  --color-gold: var(--gold);
+  --color-mist: var(--mist);
+  --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", "Helvetica", sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  margin: 0;
+  color: var(--ink-1);
+  background:
+    radial-gradient(circle at 0% 0%, #e4e6df 0%, transparent 38%),
+    radial-gradient(circle at 100% 8%, #efe9dc 0%, transparent 32%),
+    linear-gradient(180deg, var(--surface-0) 0%, var(--surface-1) 45%, var(--surface-2) 100%);
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", "Helvetica", sans-serif;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 25%, white);
 }
