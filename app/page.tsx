@@ -20,7 +20,7 @@ export default function Home() {
             <ViewMark size={128} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={3.5} className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)]" />
             <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.18em] text-white uppercase sm:text-7xl">View</h1>
             <p className="mt-3 font-sans text-[11px] font-light tracking-[0.65em] text-white/35 uppercase">Ventures</p>
-            <p className="mt-10 font-display text-xl italic text-white/20">Third generation. First venture.</p>
+            <p className="mt-10 font-display text-xl italic text-white/50">Third generation. First venture.</p>
           </Reveal>
           <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
             <Link href="/contact" className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90">Contact Us</Link>
@@ -41,6 +41,7 @@ export default function Home() {
             <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">01 — About</p>
             <h2 className="mt-5 max-w-3xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">From operational roots to a broader strategic platform.</h2>
             <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors.</p>
+            <p className="mt-3 max-w-2xl text-sm font-light leading-7 text-white/25">Founded by George Tsolakis — third-generation entrepreneur from Thessaloniki, Greece.</p>
           </Reveal>
           <div className="mt-10 grid gap-2 md:grid-cols-2">
             <Reveal>

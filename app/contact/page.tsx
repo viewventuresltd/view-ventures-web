@@ -1,8 +1,38 @@
+"use client";
+
+import { useState } from "react";
 import { Reveal } from "../components/reveal";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
 
 export default function ContactPage() {
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    if (!form.firstName || !form.lastName || !form.email || !form.message) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("sent");
+        setForm({ firstName: "", lastName: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#07090F] text-white">
       <SiteHeader />
@@ -15,15 +45,13 @@ export default function ContactPage() {
             Let&apos;s discuss partnerships, projects, and opportunities.
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
-            This page is ready for your final contact flow. For now, it includes
-            direct contact details and a basic inquiry form structure you can
-            connect to email or Supabase later.
+            Reach out directly or use the form below. We respond to all serious inquiries.
           </p>
         </Reveal>
 
         <section className="mt-10 grid gap-4 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
-            <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/[0.02] p-7">
+            <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7">
               <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Company Contact
               </p>
@@ -31,14 +59,14 @@ export default function ContactPage() {
                 <p>
                   Email:
                   <br />
-                  <a href="mailto:hello@viewventures.co" className="text-white">
+                  <a href="mailto:hello@viewventures.co" className="text-white transition-colors hover:text-white/70">
                     hello@viewventures.co
                   </a>
                 </p>
                 <p>
                   Website:
                   <br />
-                  <a href="https://viewventures.co" className="text-white">
+                  <a href="https://viewventures.co" className="text-white transition-colors hover:text-white/70">
                     viewventures.co
                   </a>
                 </p>
@@ -52,47 +80,82 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <form className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-7">
+            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7">
               <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
                 Inquiry Form
               </p>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
-                  First Name
-                  <input
-                    type="text"
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.04]/[0.02] px-3 py-2 text-sm text-white outline-none focus:border-[#C49A2E]"
-                  />
-                </label>
-                <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
-                  Last Name
-                  <input
-                    type="text"
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.04]/[0.02] px-3 py-2 text-sm text-white outline-none focus:border-[#C49A2E]"
-                  />
-                </label>
-                <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
-                  Email
-                  <input
-                    type="email"
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.04]/[0.02] px-3 py-2 text-sm text-white outline-none focus:border-[#C49A2E]"
-                  />
-                </label>
-                <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
-                  Message
-                  <textarea
-                    rows={5}
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.04]/[0.02] px-3 py-2 text-sm text-white outline-none focus:border-[#C49A2E]"
-                  />
-                </label>
-              </div>
-              <button
-                type="button"
-                className="mt-6 rounded-full bg-navy-1 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0f2752]"
-              >
-                Send Inquiry
-              </button>
-            </form>
+
+              {status === "sent" ? (
+                <div className="mt-8 text-center">
+                  <p className="text-2xl font-extralight text-white">Message sent.</p>
+                  <p className="mt-2 text-sm text-white/40">We&apos;ll be in touch shortly.</p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="mt-6 rounded-full border border-white/10 px-5 py-2 font-mono text-[9px] uppercase tracking-[0.18em] text-white/40 transition-all hover:border-white/25 hover:text-white"
+                  >
+                    Send another
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
+                    First Name
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={form.firstName}
+                      onChange={handleChange}
+                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
+                    Last Name
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={form.lastName}
+                      onChange={handleChange}
+                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
+                    Email
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
+                    Message
+                    <textarea
+                      rows={5}
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
+                    />
+                  </label>
+
+                  {status === "error" && (
+                    <p className="sm:col-span-2 text-xs text-red-400">Something went wrong. Please try emailing us directly.</p>
+                  )}
+
+                  <div className="sm:col-span-2">
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={status === "sending"}
+                      className="rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90 disabled:opacity-50"
+                    >
+                      {status === "sending" ? "Sending…" : "Send Inquiry"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </Reveal>
         </section>
       </main>

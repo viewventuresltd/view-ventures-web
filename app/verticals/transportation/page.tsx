@@ -43,19 +43,19 @@ export default function TransportationPage() {
                 <circle cx="410" cy="180" r="8" fill="#1456B4" />
                 <circle cx="470" cy="120" r="8" fill="#1456B4" />
                 <circle cx="520" cy="80" r="8" fill="#1456B4" />
-                <text x="222" y="204" fontSize="13" fill="#081630">
+                <text x="222" y="204" fontSize="13" fill="rgba(255,255,255,0.6)">
                   Thessaloniki
                 </text>
-                <text x="312" y="254" fontSize="13" fill="#081630">
+                <text x="312" y="254" fontSize="13" fill="rgba(255,255,255,0.6)">
                   Athens
                 </text>
-                <text x="422" y="184" fontSize="13" fill="#081630">
+                <text x="422" y="184" fontSize="13" fill="rgba(255,255,255,0.6)">
                   Skopje
                 </text>
-                <text x="482" y="124" fontSize="13" fill="#081630">
+                <text x="482" y="124" fontSize="13" fill="rgba(255,255,255,0.6)">
                   Sofia
                 </text>
-                <text x="532" y="84" fontSize="13" fill="#081630">
+                <text x="532" y="84" fontSize="13" fill="rgba(255,255,255,0.6)">
                   Belgrade
                 </text>
 

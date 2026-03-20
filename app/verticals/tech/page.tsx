@@ -35,11 +35,11 @@ export default function TechPage() {
                 Launch Window
               </p>
               <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white">
-                ~1 Month
+                Q2 2026
               </h2>
               <p className="mt-4 text-sm leading-7 text-[rgba(255,255,255,0.62)]">
-                Current status is pre-launch. Messaging and visuals can switch to
-                full product positioning once the MVP deployment date is fixed.
+                The MVP is in final preparation. Full product positioning and feature
+                documentation will go live upon launch.
               </p>
             </article>
           </Reveal>
