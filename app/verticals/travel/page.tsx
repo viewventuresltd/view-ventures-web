@@ -80,7 +80,7 @@ const trips = [
     type: "Islands",
     highlights: ["Dubrovnik city walls", "Diocletian Palace", "Hvar island"],
     availability: "May — Sep",
-    image: "https://images.unsplash.com/photo-1555990538-c4b9b7c6c9b9?w=800&q=80",
+    image: "/images/dubrovnik.jpg",
   },
   {
     id: 7,
@@ -92,7 +92,7 @@ const trips = [
     type: "Cultural",
     highlights: ["Giza pyramids", "Nile river cruise", "Valley of the Kings"],
     availability: "Oct — Apr",
-    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=800&q=80",
+    image: "/images/egypt.jpg",
   },
   {
     id: 8,
