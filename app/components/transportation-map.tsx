@@ -84,12 +84,12 @@ export default function TransportationMap() {
           { color: "#1456B4", weight: 2, opacity: 0.5, dashArray: "6 5" }
         ).addTo(map);
 
-        line.on("mouseover", function () {
-          (this as any).setStyle({ color: "#C49A2E", weight: 3, opacity: 0.9, dashArray: "" });
+        line.on("mouseover", () => {
+          line.setStyle({ color: "#C49A2E", weight: 3, opacity: 0.9, dashArray: "" });
           marker.openPopup();
         });
-        line.on("mouseout", function () {
-          (this as any).setStyle({ color: "#1456B4", weight: 2, opacity: 0.5, dashArray: "6 5" });
+        line.on("mouseout", () => {
+          line.setStyle({ color: "#1456B4", weight: 2, opacity: 0.5, dashArray: "6 5" });
         });
         line.bindPopup(`
           <div style="font-family:monospace;min-width:180px">
