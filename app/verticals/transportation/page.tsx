@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+
+const TransportationMap = dynamic(() => import("../../components/transportation-map"), { ssr: false, loading: () => <div style={{height:"420px"}} className="rounded-xl bg-white/[0.02] animate-pulse" /> });
 
 // Route data: approximate SVG coordinates mapped to a northern Greece viewport
 const routes = [
@@ -301,7 +304,8 @@ export default function TransportationPage() {
           <p className="mt-1 text-xs font-light text-white/30">Hover over a route line or city to see reservations contact</p>
 
           <div className="relative mt-4">
-            <svg
+            <TransportationMap />
+            {false && <svg
               viewBox="0 0 500 450"
               className="w-full rounded-xl"
               style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #0d1529 50%, #091020 100%)" }}
@@ -447,7 +451,7 @@ export default function TransportationPage() {
                   </text>
                 </g>
               )}
-            </svg>
+            </svg>}
 
             {/* Mobile fallback cards */}
             <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:hidden">
