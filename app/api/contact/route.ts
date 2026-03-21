@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     await transporter.sendMail({
       from: `"View Ventures Contact" <${process.env.CONTACT_EMAIL_USER}>`,
-      to: "hello@viewventures.co",
+      to: "tsolakisg@viewventures.co",
       replyTo: email,
       subject: `New inquiry from ${firstName} ${lastName}`,
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`,
