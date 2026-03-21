@@ -84,12 +84,12 @@ export default function RealEstatePage() {
           <div className="mt-10 rounded-2xl border border-[#C49A2E]/20 bg-[rgba(196,154,46,0.03)] p-8 sm:p-10">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-[#C49A2E]/60">Latest Project</p>
+                <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-[#C49A2E]/60">Latest Project — Now Available</p>
                 <h2 className="mt-3 max-w-xl text-2xl font-extralight leading-tight tracking-tight text-white">
-                  New renovation project entering the market.
+                  Luxury Apartment · Navmachias Ellis 4, Thessaloniki
                 </h2>
                 <p className="mt-3 max-w-lg text-sm font-light leading-7 text-white/35">
-                  Renovations begin this week. Full project details, specifications, and pricing available on request. Click below to view the project brief.
+                  2nd floor premium investment opportunity. Fully equipped and fully furnished. Renovation underway — available for acquisition now. Download the full project brief below.
                 </p>
               </div>
               <div className="flex-shrink-0">
