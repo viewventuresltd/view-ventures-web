@@ -1,5 +1,6 @@
 "use client";
 
+import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 
 const routes = [
@@ -110,15 +111,9 @@ export default function TransportationMap() {
   }, []);
 
   return (
-    <>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
-      />
-      <div
-        ref={mapRef}
-        style={{ height: "420px", width: "100%", borderRadius: "12px", overflow: "hidden" }}
-      />
-    </>
+    <div
+      ref={mapRef}
+      style={{ height: "420px", width: "100%", borderRadius: "12px", overflow: "hidden" }}
+    />
   );
 }
