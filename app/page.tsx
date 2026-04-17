@@ -17,11 +17,11 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
           <Reveal className="relative z-10 flex flex-col items-center">
-            <ViewMark size={128} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={3.5} className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)]" />
-            <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.22em] text-white uppercase sm:text-6xl">View Ventures</h1>
-            <p className="mt-10 font-display text-xl italic text-white/40">Same foundation, Wider view.</p>
+            <ViewMark size={128} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={3.5} className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)] hero-fade-1" />
+            <h1 className="mt-10 font-sans text-lg font-light tracking-[0.45em] text-white/40 uppercase hero-fade-2">View Ventures</h1>
+            <p className="mt-4 font-display text-base italic text-white/25 hero-fade-3">Same foundation, Wider view.</p>
           </Reveal>
-          <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
+          <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3 hero-fade-4">
             <Link href="/contact" className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90">Contact Us</Link>
             <Link href="/verticals" className="rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-white/60 transition-all hover:border-white/25 hover:text-white">Explore Verticals</Link>
           </Reveal>
