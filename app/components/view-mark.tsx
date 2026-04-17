@@ -8,7 +8,7 @@ type ViewMarkProps = {
 
 export function ViewMark({
   size = 56,
-  stroke = "white",
+  stroke = "#FFFFFF",
   accent = "#C49A2E",
   strokeWidth = 3.8,
   className,
@@ -17,47 +17,50 @@ export function ViewMark({
     <svg
       className={className}
       width={size}
-      height={size}
-      viewBox="0 0 140 140"
+      height={Math.round(size * 0.55)}
+      viewBox="0 0 280 154"
       fill="none"
       aria-hidden="true"
     >
+      {/* Left V */}
+      <text
+        x="18"
+        y="118"
+        fontFamily="Georgia, serif"
+        fontWeight="700"
+        fontSize="124"
+        fill={stroke}
+      >{"V"}</text>
+
+      {/* Vertical divider */}
       <line
-        x1="14"
-        y1="18"
-        x2="70"
+        x1="150"
+        y1="16"
+        x2="150"
+        y2="90"
+        stroke={stroke}
+        strokeWidth="1.5"
+        opacity="0.4"
+      />
+      {/* Gold accent on divider */}
+      <line
+        x1="150"
+        y1="90"
+        x2="150"
         y2="118"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-      />
-      <line
-        x1="126"
-        y1="18"
-        x2="93"
-        y2="72"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-      />
-      <line
-        x1="84"
-        y1="87"
-        x2="70"
-        y2="118"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-      />
-      <line
-        x1="93"
-        y1="72"
-        x2="84"
-        y2="87"
         stroke={accent}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
+        strokeWidth="1.5"
       />
+
+      {/* Right V */}
+      <text
+        x="158"
+        y="118"
+        fontFamily="Georgia, serif"
+        fontWeight="700"
+        fontSize="124"
+        fill={stroke}
+      >{"V"}</text>
     </svg>
   );
 }
