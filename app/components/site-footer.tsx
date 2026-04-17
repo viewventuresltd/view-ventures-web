@@ -13,7 +13,7 @@ export function SiteFooter() {
               <span className="text-[11px] font-light uppercase tracking-[0.28em] text-white/60">View Ventures</span>
             </div>
             <p className="font-display text-sm italic text-white/20">Third generation. First venture.</p>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/20">Thessaloniki, Greece · IKE</p>
+            
           </div>
           <div className="flex gap-16">
             <div className="flex flex-col gap-3">
