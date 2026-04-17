@@ -18,9 +18,8 @@ export default function Home() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
           <Reveal className="relative z-10 flex flex-col items-center">
             <ViewMark size={128} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={3.5} className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)]" />
-            <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.18em] text-white uppercase sm:text-7xl">View</h1>
-            <p className="mt-3 font-sans text-[11px] font-light tracking-[0.65em] text-white/35 uppercase">Ventures</p>
-            <p className="mt-10 font-display text-xl italic text-white/50">Same foundation, Wider view.</p>
+            <h1 className="mt-12 font-sans text-5xl font-extralight tracking-[0.22em] text-white uppercase sm:text-6xl">View Ventures</h1>
+            <p className="mt-10 font-display text-xl italic text-white/40">Same foundation, Wider view.</p>
           </Reveal>
           <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3">
             <Link href="/contact" className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90">Contact Us</Link>
