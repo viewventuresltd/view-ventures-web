@@ -40,7 +40,6 @@ export default function Home() {
             <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">01 — About</p>
             <h2 className="mt-5 max-w-3xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">From operational roots to a broader strategic platform.</h2>
             <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors.</p>
-            <p className="mt-3 max-w-2xl text-sm font-light leading-7 text-white/25">Founded by George Tsolakis — third-generation entrepreneur from Thessaloniki, Greece.</p>
           </Reveal>
           <div className="mt-10 grid gap-2 md:grid-cols-2">
             <Reveal>
