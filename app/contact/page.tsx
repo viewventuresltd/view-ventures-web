@@ -34,122 +34,77 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090F] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl px-5 pb-20 pt-10 sm:px-8">
+      <main className="page pb-24 pt-14 sm:pt-20">
         <Reveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-white/40">
-            Contact
-          </p>
-          <h1 className="mt-4 max-w-4xl text-balance font-sans text-5xl leading-tight sm:text-6xl">
+          <p className="eyebrow">Contact</p>
+          <h1 className="h-page mt-3 max-w-4xl text-balance">
             Let&apos;s discuss partnerships, projects, and opportunities.
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
+          <p className="lead mt-5 max-w-3xl text-pretty">
             Reach out directly or use the form below. We respond to all serious inquiries.
           </p>
         </Reveal>
 
-        <section className="mt-10 grid gap-4 lg:grid-cols-[1fr_1.2fr]">
+        <section className="mt-12 grid gap-4 lg:grid-cols-[1fr_1.4fr]">
           <Reveal>
-            <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
-                Company Contact
-              </p>
-              <div className="mt-5 space-y-4 text-sm leading-7 text-white/40">
-                <p>
-                  Email:
-                  <br />
-                  <a href="mailto:hello@viewventures.co" className="text-white transition-colors hover:text-white/70">
-                    hello@viewventures.co
-                  </a>
-                </p>
-                <p>
-                  Website:
-                  <br />
-                  <a href="https://viewventures.co" className="text-white transition-colors hover:text-white/70">
-                    viewventures.co
-                  </a>
-                </p>
-                <p>
-                  Location:
-                  <br />
-                  Thessaloniki, Greece
-                </p>
-              </div>
+            <article className="card h-full p-8">
+              <p className="text-[15px] font-semibold">Company Contact</p>
+              <dl className="mt-6 space-y-5 text-[15px]">
+                <div>
+                  <dt className="text-[13px] text-ink-3">Email</dt>
+                  <dd><a href="mailto:hello@viewventures.co" className="text-navy hover:underline">hello@viewventures.co</a></dd>
+                </div>
+                <div>
+                  <dt className="text-[13px] text-ink-3">Website</dt>
+                  <dd><a href="https://viewventures.co" className="text-navy hover:underline">viewventures.co</a></dd>
+                </div>
+                <div>
+                  <dt className="text-[13px] text-ink-3">Location</dt>
+                  <dd>Thessaloniki, Greece</dd>
+                </div>
+              </dl>
             </article>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
-                Inquiry Form
-              </p>
+            <div className="card p-8">
+              <p className="text-[15px] font-semibold">Inquiry Form</p>
 
               {status === "sent" ? (
-                <div className="mt-8 text-center">
-                  <p className="text-2xl font-extralight text-white">Message sent.</p>
-                  <p className="mt-2 text-sm text-white/40">We&apos;ll be in touch shortly.</p>
-                  <button
-                    onClick={() => setStatus("idle")}
-                    className="mt-6 rounded-full border border-white/10 px-5 py-2 font-mono text-[9px] uppercase tracking-[0.18em] text-white/40 transition-all hover:border-white/25 hover:text-white"
-                  >
+                <div className="py-10 text-center">
+                  <p className="text-[28px] font-semibold tracking-[-0.02em]">Message sent.</p>
+                  <p className="body mt-2">We&apos;ll be in touch shortly.</p>
+                  <button onClick={() => setStatus("idle")} className="btn-secondary mt-6">
                     Send another
                   </button>
                 </div>
               ) : (
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  <label className="flex flex-col gap-1.5 text-[13px] text-ink-2">
                     First Name
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={form.firstName}
-                      onChange={handleChange}
-                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
-                    />
+                    <input type="text" name="firstName" autoComplete="given-name" value={form.firstName} onChange={handleChange} className="field" />
                   </label>
-                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40">
+                  <label className="flex flex-col gap-1.5 text-[13px] text-ink-2">
                     Last Name
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={form.lastName}
-                      onChange={handleChange}
-                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
-                    />
+                    <input type="text" name="lastName" autoComplete="family-name" value={form.lastName} onChange={handleChange} className="field" />
                   </label>
-                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
+                  <label className="flex flex-col gap-1.5 text-[13px] text-ink-2 sm:col-span-2">
                     Email
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
-                    />
+                    <input type="email" name="email" autoComplete="email" value={form.email} onChange={handleChange} className="field" />
                   </label>
-                  <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.14em] text-white/40 sm:col-span-2">
+                  <label className="flex flex-col gap-1.5 text-[13px] text-ink-2 sm:col-span-2">
                     Message
-                    <textarea
-                      rows={5}
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-[#C49A2E]"
-                    />
+                    <textarea rows={5} name="message" value={form.message} onChange={handleChange} className="field resize-y" />
                   </label>
 
                   {status === "error" && (
-                    <p className="sm:col-span-2 text-xs text-red-400">Something went wrong. Please try emailing us directly.</p>
+                    <p className="text-[13px] text-red-500 sm:col-span-2">Something went wrong. Please try emailing us directly.</p>
                   )}
 
                   <div className="sm:col-span-2">
-                    <button
-                      type="button"
-                      onClick={handleSubmit}
-                      disabled={status === "sending"}
-                      className="rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90 disabled:opacity-50"
-                    >
+                    <button type="button" onClick={handleSubmit} disabled={status === "sending"} className="btn-primary">
                       {status === "sending" ? "Sending…" : "Send Inquiry"}
                     </button>
                   </div>

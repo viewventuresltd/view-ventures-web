@@ -1,4 +1,3 @@
-
 "use client";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
@@ -125,44 +124,42 @@ export default function TravelPage() {
   const filtered = active === "All" ? trips : trips.filter((t) => t.destination === active);
 
   return (
-    <div className="min-h-screen bg-[#07090F] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8">
+      <main className="page pb-24 pt-14 sm:pt-20">
 
         {/* HEADER */}
-        <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">Vertical / Travel</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-extralight leading-tight tracking-tight text-white sm:text-5xl">
+        <p className="eyebrow">Vertical / Travel</p>
+        <h1 className="h-page mt-3 max-w-3xl">
           Curated trips. Handled by us.
         </h1>
-        <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">
+        <p className="lead mt-5 max-w-2xl">
           We partner with Grecos Travel to offer a full catalogue of guided and independent trips across the Mediterranean and beyond. Browse below and contact us to book.
         </p>
 
         {/* STATS */}
-        <div className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             { value: "50+", label: "Destinations" },
             { value: "200+", label: "Trip packages" },
             { value: "20+", label: "Years operating" },
             { value: "100%", label: "We handle booking" },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <p className="text-2xl font-extralight text-white">{stat.value}</p>
-              <p className="mt-1 font-mono text-[9px] font-light uppercase tracking-[0.18em] text-white/30">{stat.label}</p>
+            <div key={stat.label} className="card p-6">
+              <p className="text-[34px] font-semibold tracking-[-0.03em]">{stat.value}</p>
+              <p className="mt-1 text-[13px] text-ink-3">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {/* FILTERS */}
-        <div className="mt-12 flex flex-wrap gap-2">
+        <div className="mt-14 inline-flex flex-wrap gap-1 rounded-full bg-surface-2 p-1">
           {destinations.map((dest) => (
             <button
               key={dest}
               onClick={() => setActive(dest)}
-              className={`rounded-full border px-4 py-2 font-mono text-[9px] font-light uppercase tracking-[0.18em] transition-all ${
-                active === dest
-                  ? "border-[#C49A2E]/50 bg-[rgba(196,154,46,0.08)] text-[#C49A2E]"
-                  : "border-white/[0.08] text-white/35 hover:border-white/20 hover:text-white"
+              className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition-all ${
+                active === dest ? "bg-surface text-ink shadow-sm" : "text-ink-2 hover:text-ink"
               }`}
             >
               {dest}
@@ -171,64 +168,45 @@ export default function TravelPage() {
         </div>
 
         {/* TRIP GRID */}
-        <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((trip) => (
-            <div
-              key={trip.id}
-              className="group flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden transition-all hover:border-[#C49A2E]/25"
-            >
+            <div key={trip.id} className="card group flex h-full flex-col overflow-hidden">
               {/* IMAGE */}
-              <div className="relative h-48 w-full overflow-hidden">
+              <div className="relative h-52 w-full overflow-hidden">
                 <img
                   src={trip.image}
                   alt={trip.title}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#07090F] via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                  <span className="rounded-full border border-white/20 bg-black/40 px-2.5 py-1 font-mono text-[8px] font-light uppercase tracking-[0.16em] text-white/70 backdrop-blur-sm">
-                    {trip.type}
-                  </span>
-                  <span className="rounded-full border border-white/20 bg-black/40 px-2.5 py-1 font-mono text-[8px] font-light uppercase tracking-[0.16em] text-white/70 backdrop-blur-sm">
-                    {trip.duration}
-                  </span>
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
+                  <span className="rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-medium text-[#1D1D1F] backdrop-blur-md">{trip.type}</span>
+                  <span className="rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-medium text-[#1D1D1F] backdrop-blur-md">{trip.duration}</span>
                 </div>
               </div>
 
               {/* CONTENT */}
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-xl font-light tracking-tight text-white">{trip.title}</h3>
-                <p className="mt-1 font-mono text-[9px] font-light uppercase tracking-[0.14em] text-white/30">{trip.subtitle}</p>
+                <h3 className="h-card !text-[21px]">{trip.title}</h3>
+                <p className="mt-1 text-[13px] text-ink-3">{trip.subtitle}</p>
 
-                <ul className="mt-4 flex flex-col gap-2">
+                <ul className="mt-4 flex flex-col gap-1.5">
                   {trip.highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2 text-[11px] font-light text-white/35">
-                      <span className="h-px w-3 flex-shrink-0 bg-[#C49A2E] opacity-50" />
+                    <li key={h} className="flex items-center gap-2 text-[14px] text-ink-2">
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-gold" />
                       {h}
                     </li>
                   ))}
                 </ul>
 
                 <div className="mt-auto pt-5">
-                  <div className="flex items-end justify-between border-t border-white/[0.06] pt-4">
+                  <div className="flex items-end justify-between border-t border-hairline pt-4">
                     <div>
-                      <p className="text-lg font-light text-white">{trip.price}</p>
-                      <p className="mt-0.5 font-mono text-[8px] font-light uppercase tracking-[0.14em] text-white/25">per person</p>
+                      <p className="text-[19px] font-semibold tracking-[-0.015em]">{trip.price}</p>
+                      <p className="text-[12px] text-ink-3">per person · {trip.availability}</p>
                     </div>
-                    <Link
-                      href="/contact"
-                      className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/50 transition-all hover:border-[#C49A2E]/40 hover:text-white"
-                    >
-                      Book
-                    </Link>
+                    <Link href="/contact" className="btn-primary !px-4 !py-1.5 !text-[13px]">Book</Link>
                   </div>
-
-                  {/* PHONE */}
-                  <a href="tel:+302310236184" className="mt-3 inline-block text-[10px] font-light text-white/25 transition-colors hover:text-white/60">{"📞 +30 2310 236184"}</a>
-
-                  <p className="mt-2 font-mono text-[8px] font-light uppercase tracking-[0.12em] text-white/20">
-                    {trip.availability}
-                  </p>
+                  <a href="tel:+302310236184" className="mt-3 inline-block text-[13px] text-navy hover:underline">{phone}</a>
                 </div>
               </div>
             </div>
@@ -236,22 +214,18 @@ export default function TravelPage() {
         </div>
 
         {/* BOTTOM CTA */}
-        <div className="mt-10 rounded-2xl border border-[#C49A2E]/20 bg-[rgba(196,154,46,0.03)] p-8 sm:p-10">
-          <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-[#C49A2E]/60">Full catalogue</p>
-          <h2 className="mt-4 max-w-xl text-2xl font-extralight leading-tight tracking-tight text-white">
+        <div className="card relative mt-12 overflow-hidden p-8 sm:p-12">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-gold/15 blur-3xl" />
+          <p className="eyebrow">Full catalogue</p>
+          <h2 className="mt-3 max-w-xl text-[26px] font-semibold leading-tight tracking-[-0.022em]">
             Looking for something specific? We have 200+ packages available.
           </h2>
-          <p className="mt-3 max-w-lg text-sm font-light leading-7 text-white/35">
+          <p className="body mt-3 max-w-lg">
             Tell us your destination, dates, and group size. We will find the right package and handle the booking.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90"
-            >
-              Request a Trip
-            </Link>
-            <a href="tel:+302310236184" className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-[11px] font-light text-white/50 transition-all hover:border-white/20 hover:text-white">{"📞 +30 2310 236184"}</a>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/contact" className="btn-primary">Request a Trip</Link>
+            <a href="tel:+302310236184" className="btn-secondary">{phone}</a>
           </div>
         </div>
 

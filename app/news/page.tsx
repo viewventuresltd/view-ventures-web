@@ -5,33 +5,29 @@ import { newsItems } from "../lib/site-data";
 
 export default function NewsPage() {
   return (
-    <div className="min-h-screen bg-[#07090F] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl px-5 pb-20 pt-10 sm:px-8">
+      <main className="page pb-24 pt-14 sm:pt-20">
         <Reveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-white/40">
-            News
-          </p>
-          <h1 className="mt-4 max-w-4xl text-balance font-sans text-5xl leading-tight sm:text-6xl">
+          <p className="eyebrow">News</p>
+          <h1 className="h-page mt-3 max-w-4xl text-balance">
             Company and vertical updates.
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-white/40 sm:text-lg">
+          <p className="lead mt-5 max-w-3xl text-pretty">
             This section is built as a lightweight newsroom. You can later
             replace these entries with CMS-based posts or dynamic announcements.
           </p>
         </Reveal>
 
-        <section className="mt-10 space-y-4">
+        <section className="mt-12 space-y-4">
           {newsItems.map((item, index) => (
-            <Reveal key={item.title} delay={index * 0.06}>
-              <article className="rounded-2xl border border-white/[0.06]/80 bg-white/[0.04]/80 p-7">
-                <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/40">
-                  {item.date}
-                </p>
-                <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">
+            <Reveal key={item.title} delay={index * 0.05}>
+              <article className="card p-8">
+                <p className="text-[13px] text-ink-3">{item.date}</p>
+                <h2 className="mt-2 text-[24px] font-semibold tracking-[-0.022em]">
                   {item.title}
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-white/40">{item.summary}</p>
+                <p className="body mt-3">{item.summary}</p>
               </article>
             </Reveal>
           ))}

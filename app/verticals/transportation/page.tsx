@@ -4,57 +4,9 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { transportRoutes as routes } from "../../lib/site-data";
 
-const TransportationMap = dynamic(() => import("../../components/transportation-map"), { ssr: false, loading: () => <div style={{height:"420px"}} className="rounded-xl bg-white/[0.02] animate-pulse" /> });
-
-// Route data: approximate SVG coordinates mapped to a northern Greece viewport
-const routes = [
-  {
-    id: "volos",
-    name: "Volos",
-    phone: "+30 24210 70330, 70795",
-    cx: 320,
-    cy: 390,
-  },
-  {
-    id: "larisa",
-    name: "Larisa",
-    phone: "+30 2410 257100",
-    cx: 280,
-    cy: 310,
-  },
-  {
-    id: "pieria",
-    name: "Pieria",
-    phone: "+30 23510 21888",
-    cx: 200,
-    cy: 270,
-  },
-  {
-    id: "imathia",
-    name: "Imathia",
-    phone: "+30 23310 27116 | +30 23310 27711",
-    cx: 155,
-    cy: 210,
-  },
-  {
-    id: "pella",
-    name: "Pella",
-    phone: "+30 23810 89885",
-    cx: 130,
-    cy: 165,
-  },
-  {
-    id: "serres",
-    name: "Serres",
-    phone: "+30 23210 55402",
-    cx: 340,
-    cy: 110,
-  },
-];
-
-// Regency Casino Thessaloniki position on the map
-const casino = { cx: 210, cy: 155 };
+const TransportationMap = dynamic(() => import("../../components/transportation-map"), { ssr: false, loading: () => <div style={{ height: "440px" }} className="animate-pulse rounded-2xl bg-surface-2" /> });
 
 const schedules = [
   {
@@ -278,95 +230,85 @@ const schedules = [
 ];
 
 export default function TransportationPage() {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
   const [openSchedule, setOpenSchedule] = useState<number | null>(null);
 
-  const hoveredRoute = routes.find((r) => r.id === hovered);
-
   return (
-    <div className="min-h-screen bg-[#07090F] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8">
+      <main className="page pb-24 pt-14 sm:pt-20">
 
         {/* HEADER */}
-        <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">Vertical / Transportation</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-extralight leading-tight tracking-tight text-white sm:text-5xl">
+        <p className="eyebrow">Vertical / Transportation</p>
+        <h1 className="h-page mt-3 max-w-3xl">
           Free transportation to Regency Casino Thessaloniki.
         </h1>
-        <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">
+        <p className="lead mt-5 max-w-2xl">
           We operate complimentary bus services from six regional hubs directly to Regency Casino Thessaloniki. Hover over a route on the map to see contact & reservation details.
         </p>
+        <a href="#timetable" className="btn-secondary mt-7">Full timetable</a>
 
         {/* MAP */}
-        <div className="mt-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
-          <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-white/25">Regional Route Map</p>
-          <p className="mt-1 text-xs font-light text-white/30">Hover over a route line or city to see reservations contact</p>
+        <div className="card mt-12 p-3 sm:p-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2 px-2 pb-3 pt-1">
+            <p className="text-[15px] font-semibold">Regional Route Map</p>
+            <p className="text-[13px] text-ink-3">Hover over a route line or city to see reservations contact</p>
+          </div>
 
-          <div className="relative mt-4">
-            <TransportationMap />
-            
+          <TransportationMap />
 
-            {/* Mobile fallback cards */}
-            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:hidden">
-              {routes.map((route) => (
-                <div key={route.id} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#C49A2E]/70">Contact — Reservations</p>
-                  <p className="mt-1 text-sm font-light text-white">{route.name}</p>
-                  <p className="mt-0.5 font-mono text-[10px] text-white/40">{route.phone}</p>
-                </div>
-              ))}
-            </div>
+          {/* Mobile fallback cards */}
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:hidden">
+            {routes.map((route) => (
+              <a key={route.id} href={`tel:${route.phone.split(/[,|]/)[0].replace(/\s/g, "")}`} className="rounded-xl bg-surface-2 px-4 py-3">
+                <p className="text-[12px] font-medium text-gold">Contact — Reservations</p>
+                <p className="mt-0.5 text-[15px] font-semibold">{route.name}</p>
+                <p className="mt-0.5 font-mono text-[12px] text-ink-2">{route.phone}</p>
+              </a>
+            ))}
           </div>
         </div>
 
         {/* BUS SCHEDULE */}
-        <div className="mt-8">
-          <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">Bus Schedule</p>
-          <h2 className="mt-3 text-2xl font-extralight tracking-tight text-white">Full Timetable</h2>
-          <p className="mt-2 text-sm font-light text-white/35">Click a route to expand the full stop list.</p>
+        <div id="timetable" className="mt-20 scroll-mt-20">
+          <p className="eyebrow">Bus Schedule</p>
+          <h2 className="h-section mt-3">Full Timetable</h2>
+          <p className="body mt-2">Click a route to expand the full stop list.</p>
 
-          <div className="mt-5 space-y-2">
+          <div className="card mt-8 divide-y divide-hairline overflow-hidden">
             {schedules.map((s, i) => (
-              <div
-                key={i}
-                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden transition-colors hover:border-white/10"
-              >
+              <div key={i}>
                 <button
-                  className="w-full px-6 py-4 flex items-center justify-between text-left"
+                  className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors hover:bg-surface-2"
+                  aria-expanded={openSchedule === i}
                   onClick={() => setOpenSchedule(openSchedule === i ? null : i)}
                 >
                   <div>
-                    <p className="text-sm font-light text-white">{s.title}</p>
-                    <div className="mt-1 flex flex-wrap gap-3">
-                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/30">{s.days}</span>
-                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#C49A2E]/60">Arrives {s.arrival}</span>
-                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/30">Departs {s.departure}</span>
+                    <p className="text-[16px] font-semibold tracking-[-0.01em]">{s.title}</p>
+                    <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
+                      <span className="text-ink-3">{s.days}</span>
+                      <span className="text-gold">Arrives {s.arrival}</span>
+                      <span className="text-ink-3">Departs {s.departure}</span>
                     </div>
                   </div>
-                  <span className="ml-4 text-white/30 text-lg">{openSchedule === i ? "−" : "+"}</span>
+                  <span className={`ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-ink-2 transition-transform ${openSchedule === i ? "rotate-45" : ""}`}>+</span>
                 </button>
 
                 {openSchedule === i && (
-                  <div className="border-t border-white/[0.04] px-6 pb-5">
-                    <div className="mt-4 space-y-1">
+                  <div className="px-6 pb-6">
+                    <ol className="relative ml-[3px] border-l border-navy/25 pl-6">
                       {s.stops.map((stop, j) => (
-                        <div key={j} className="flex items-baseline justify-between gap-4 py-1.5 border-b border-white/[0.03]">
-                          <div className="flex items-center gap-3">
-                            <span className="flex-shrink-0 h-1.5 w-1.5 rounded-full bg-[#1456B4] opacity-60" />
-                            <span className="text-xs font-light text-white/50">{stop.name}</span>
-                          </div>
-                          <span className="flex-shrink-0 font-mono text-[10px] text-[#C49A2E]/70">{stop.time}</span>
-                        </div>
+                        <li key={j} className="relative flex items-baseline justify-between gap-4 py-2">
+                          <span className="absolute -left-[29px] top-[13px] h-2 w-2 rounded-full bg-navy" />
+                          <span className="text-[14px] text-ink-2">{stop.name}</span>
+                          <span className="shrink-0 font-mono text-[12px] text-ink">{stop.time}</span>
+                        </li>
                       ))}
-                      <div className="flex items-baseline justify-between gap-4 pt-2">
-                        <div className="flex items-center gap-3">
-                          <span className="flex-shrink-0 h-2 w-2 rounded-full bg-[#C49A2E]" />
-                          <span className="text-xs font-medium text-white">Regency Casino Thessaloniki</span>
-                        </div>
-                        <span className="flex-shrink-0 font-mono text-[10px] text-[#C49A2E]">Departs {s.departure}</span>
-                      </div>
-                    </div>
+                      <li className="relative flex items-baseline justify-between gap-4 pt-3">
+                        <span className="absolute -left-[31px] top-[17px] h-3 w-3 rounded-full bg-gold" />
+                        <span className="text-[14px] font-semibold">Regency Casino Thessaloniki</span>
+                        <span className="shrink-0 font-mono text-[12px] text-gold">Departs {s.departure}</span>
+                      </li>
+                    </ol>
                   </div>
                 )}
               </div>
@@ -374,28 +316,29 @@ export default function TransportationPage() {
           </div>
 
           {/* Legal notice */}
-          <p className="mt-4 text-[10px] font-light leading-5 text-white/20">
+          <p className="mt-4 text-[12px] leading-5 text-ink-3">
             Regulating Authority: HGC. Must be 21+ to enter. Frequent gambling may lead to addiction. Help line KETHEA-ALPHA: 210 921 5776. Play responsibly.
           </p>
         </div>
 
         {/* REGENCY CTA */}
-        <div className="mt-10 rounded-2xl border border-[#C49A2E]/20 bg-[rgba(196,154,46,0.03)] p-8 sm:p-10">
-          <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-[#C49A2E]/60">Our Client</p>
-          <h2 className="mt-4 max-w-xl text-2xl font-extralight leading-tight tracking-tight text-white">
+        <div className="card relative mt-12 overflow-hidden p-8 sm:p-12">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-gold/15 blur-3xl" />
+          <p className="eyebrow">Our Client</p>
+          <h2 className="h-section mt-3 max-w-xl !text-[28px] sm:!text-[36px]">
             Regency Casino Thessaloniki
           </h2>
-          <p className="mt-3 max-w-lg text-sm font-light leading-7 text-white/35">
+          <p className="body mt-3 max-w-lg">
             View Ventures operates the complimentary transportation network for Regency Casino Thessaloniki — the premier entertainment destination in Northern Greece. Visit their official page for full service details and reservations.
           </p>
           <a
             href="https://thessaloniki.regencycasinos.gr/en/services-en/free-transportation-en/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90"
+            className="btn-primary mt-7"
           >
             View Transportation Info
-            <span className="text-[10px]">↗</span>
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
 

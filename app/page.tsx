@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { HeroRoutes } from "./components/hero-routes";
+import { MapPreview } from "./components/map-preview";
 import { Reveal } from "./components/reveal";
 import { SiteFooter } from "./components/site-footer";
 import { SiteHeader } from "./components/site-header";
+import { VerticalIcon } from "./components/vertical-icon";
 import { ViewMark } from "./components/view-mark";
 import { newsItems, verticals } from "./lib/site-data";
 
@@ -9,105 +12,131 @@ const email = "hello@viewventures.co";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#07090F] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl px-5 pb-24 sm:px-8">
+      <main>
 
-        <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden py-24 text-center">
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,86,180,0.14)_0%,rgba(196,154,46,0.05)_40%,transparent_70%)]" />
-          <Reveal className="relative z-10 flex flex-col items-center">
-            <ViewMark size={128} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={3.5} className="drop-shadow-[0_0_40px_rgba(58,143,212,0.2)] hero-fade-1" />
-            <h1 className="mt-10 font-sans text-lg font-light tracking-[0.45em] text-white/40 uppercase hero-fade-2">View Ventures</h1>
-            <p className="mt-4 font-display text-base italic text-white/25 hero-fade-3">Same foundation, Wider view.</p>
-          </Reveal>
-          <Reveal delay={0.1} className="relative z-10 mt-12 flex flex-wrap justify-center gap-3 hero-fade-4">
-            <Link href="/contact" className="rounded-full bg-white px-7 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90">Contact Us</Link>
-            <Link href="/verticals" className="rounded-full border border-white/10 bg-white/[0.04] px-7 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-white/60 transition-all hover:border-white/25 hover:text-white">Explore Verticals</Link>
-          </Reveal>
-          <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-8">
-            {["Real Estate", "Transportation", "PropTech", "Wellness", "Trade"].map((item) => (
-              <span key={item} className="flex items-center gap-2 font-mono text-[9px] font-light uppercase tracking-[0.2em] text-white/20">
-                <span className="inline-block h-px w-4 bg-[#C49A2E] opacity-50" />
-                {item}
-              </span>
-            ))}
+        <section className="page overflow-hidden pt-16 text-center sm:pt-24">
+          <div className="flex flex-col items-center">
+            <ViewMark size={88} className="text-ink hero-fade-1" />
+            <p className="eyebrow mt-6 hero-fade-1">View Ventures</p>
+            <h1 className="h-display mt-3 hero-fade-2">
+              Same foundation.
+              <br />
+              <span className="text-ink-3">Wider view.</span>
+            </h1>
+            <p className="lead mx-auto mt-6 max-w-xl hero-fade-3">
+              A third-generation company from Thessaloniki, operating across transportation, travel, real estate, wellness, and technology.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3 hero-fade-4">
+              <Link href="/contact" className="btn-primary">Contact us</Link>
+              <Link href="/verticals" className="btn-secondary">Explore verticals</Link>
+            </div>
+          </div>
+          <div className="mx-auto -mt-2 max-w-[820px] sm:-mt-6">
+            <HeroRoutes />
           </div>
         </section>
 
-        <section id="about" className="border-t border-white/[0.06] py-20 sm:py-24">
+        <section id="about" className="page scroll-mt-16 py-20 sm:py-28">
           <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">01 — About</p>
-            <h2 className="mt-5 max-w-3xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">From operational roots to a broader strategic platform.</h2>
-            <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors.</p>
-          </Reveal>
-          <div className="mt-10 grid gap-2 md:grid-cols-2">
+            <p className="eyebrow">About</p>
+            <h2 className="h-section mt-3 max-w-3xl">From operational roots to a broader strategic platform.</h2>
+            <p className="lead mt-5 max-w-2xl">View Ventures builds on long-standing transportation foundations and expands through disciplined investments into high-conviction sectors.</p>          </Reveal>
+          <div className="mt-12 grid gap-4 md:grid-cols-2">
             <Reveal>
-              <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7 transition-colors hover:border-white/10">
-                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-white/25">Foundation</p>
-                <h3 className="mt-4 text-lg font-light tracking-tight text-white">Operational Discipline</h3>
-                <p className="mt-3 text-sm font-light leading-7 text-white/35">Built on reliability, route operations, and long-term partnerships in real-world execution environments.</p>
+              <article className="card h-full p-8">
+                <p className="pill">Foundation</p>
+                <h3 className="h-card mt-5 text-[24px]">Operational Discipline</h3>
+                <p className="body mt-3">Built on reliability, route operations, and long-term partnerships in real-world execution environments.</p>
               </article>
             </Reveal>
             <Reveal delay={0.08}>
-              <article className="rounded-2xl border border-[#C49A2E]/20 bg-[rgba(196,154,46,0.03)] p-7 transition-colors hover:border-[#C49A2E]/35">
-                <p className="font-mono text-[9px] font-light uppercase tracking-[0.22em] text-[#C49A2E]/60">Direction</p>
-                <h3 className="mt-4 text-lg font-light tracking-tight text-white">Strategic Multi-Vertical Growth</h3>
-                <p className="mt-3 text-sm font-light leading-7 text-white/35">Expanding selectively into real estate, wellness, and technology while preserving execution quality.</p>
+              <article className="card relative h-full overflow-hidden p-8">
+                <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold/15 blur-3xl" />
+                <p className="pill !bg-gold/10 !text-gold">Direction</p>
+                <h3 className="h-card mt-5 text-[24px]">Strategic Multi-Vertical Growth</h3>
+                <p className="body mt-3">Expanding selectively into real estate, wellness, and technology while preserving execution quality.</p>
               </article>
             </Reveal>
           </div>
         </section>
 
-        <section id="verticals" className="border-t border-white/[0.06] py-20 sm:py-24">
-          <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">02 — Verticals</p>
-            <h2 className="mt-5 max-w-3xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">Five focused domains under one cohesive company.</h2>
-            <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-white/40">Each vertical has a dedicated roadmap. Click into each category for details and materials.</p>
-          </Reveal>
-          <div className="mt-10 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {verticals.map((item, index) => (
-              <Reveal key={item.slug} delay={index * 0.06}>
-                <Link href={`/verticals/${item.slug}`} className="group block h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:border-[#C49A2E]/30 hover:bg-[rgba(196,154,46,0.02)]">
-                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.18em] text-white/25">{item.status}</p>
-                  <h3 className="mt-3 text-lg font-light tracking-tight text-white">{item.name}</h3>
-                  <p className="mt-3 text-sm font-light leading-7 text-white/35">{item.summary}</p>
-                  <p className="mt-4 font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[#C49A2E]/50 opacity-0 transition-opacity group-hover:opacity-100">View</p>
-                </Link>
-              </Reveal>
-            ))}
+        <section id="verticals" className="scroll-mt-16 bg-surface-2 py-20 sm:py-28">
+          <div className="page">
+            <Reveal>
+              <p className="eyebrow">Verticals</p>
+              <h2 className="h-section mt-3 max-w-3xl">Five focused domains under one cohesive company.</h2>
+              <p className="lead mt-5 max-w-2xl">Each vertical has a dedicated roadmap. Click into each category for details and materials.</p>
+            </Reveal>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {verticals.map((item, index) => (
+                <Reveal key={item.slug} delay={index * 0.05}>
+                  <Link href={`/verticals/${item.slug}`} className="card group flex h-full flex-col p-7 transition-transform duration-300 hover:-translate-y-1">
+                    <div className="flex items-start justify-between">
+                      <VerticalIcon slug={item.slug} className="text-navy" />
+                      <span className="pill">{item.status}</span>
+                    </div>
+                    <h3 className="h-card mt-6">{item.name}</h3>
+                    <p className="body mt-2 flex-1">{item.summary}</p>
+                    <span className="link-more mt-5">Learn more <span aria-hidden="true">›</span></span>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="border-t border-white/[0.06] py-20 sm:py-24">
+        <section className="page py-20 sm:py-28">
           <Reveal>
-            <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">03 — News</p>
-            <h2 className="mt-5 max-w-3xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">Latest updates from View Ventures.</h2>
+            <div className="card overflow-hidden">
+              <div className="grid lg:grid-cols-[1fr_1.3fr]">
+                <div className="flex flex-col justify-center p-8 sm:p-12">
+                  <p className="eyebrow">Transportation</p>
+                  <h2 className="h-section mt-3 !text-[30px] sm:!text-[38px]">Free transportation to Regency Casino Thessaloniki.</h2>
+                  <p className="body mt-4">Complimentary bus services from six regional hubs — Volos, Larisa, Pieria, Imathia, Pella and Serres.</p>
+                  <Link href="/verticals/transportation" className="btn-primary mt-7 self-start">View routes & times</Link>
+                </div>
+                <div className="p-3 sm:p-4 lg:pl-0">
+                  <MapPreview />
+                </div>
+              </div>
+            </div>
           </Reveal>
-          <div className="mt-10 grid gap-2 md:grid-cols-3">
+        </section>
+
+        <section className="page pb-20 sm:pb-28">
+          <Reveal>
+            <p className="eyebrow">News</p>
+            <h2 className="h-section mt-3 max-w-3xl">Latest updates from View Ventures.</h2>
+          </Reveal>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
             {newsItems.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.06}>
-                <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
-                  <p className="font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/25">{item.date}</p>
-                  <h3 className="mt-3 text-base font-light tracking-tight text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm font-light leading-7 text-white/35">{item.summary}</p>
+              <Reveal key={item.title} delay={index * 0.05}>
+                <article className="card h-full p-7">
+                  <p className="text-[13px] text-ink-3">{item.date}</p>
+                  <h3 className="h-card mt-3 !text-[17px]">{item.title}</h3>
+                  <p className="body mt-3">{item.summary}</p>
                 </article>
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.14} className="mt-6">
-            <Link href="/news" className="inline-flex rounded-full border border-white/[0.08] bg-white/[0.02] px-5 py-3 font-mono text-[9px] font-light uppercase tracking-[0.22em] text-white/40 transition-all hover:border-white/20 hover:text-white">View All News</Link>
+          <Reveal delay={0.1} className="mt-8">
+            <Link href="/news" className="link-more">View all news <span aria-hidden="true">›</span></Link>
           </Reveal>
         </section>
 
-        <section className="border-t border-white/[0.06] py-20 sm:py-24">
+        <section className="page pb-24 sm:pb-32">
           <Reveal>
-            <article className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 sm:p-12">
-              <p className="font-mono text-[9px] font-light uppercase tracking-[0.3em] text-white/25">04 — Contact</p>
-              <h2 className="mt-6 max-w-2xl text-3xl font-extralight leading-tight tracking-tight text-white sm:text-4xl">Ready to discuss partnerships, projects, or investment opportunities?</h2>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/contact" className="rounded-full bg-white px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090F] transition-all hover:bg-white/90">Get in Touch</Link>
-                <a href={`mailto:${email}`} className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-[11px] font-light tracking-[0.12em] text-white/50 transition-all hover:border-[#C49A2E]/40 hover:text-white">{email}</a>
+            <article className="relative overflow-hidden rounded-[28px] bg-primary px-8 py-14 text-center sm:px-16 sm:py-20">
+              <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/30 blur-3xl" />
+              <p className="relative text-[13px] font-semibold text-gold">Contact</p>
+              <h2 className="relative mx-auto mt-3 max-w-2xl text-[30px] font-semibold leading-[1.1] tracking-[-0.028em] text-on-primary sm:text-[44px]">
+                Ready to discuss partnerships, projects, or investment opportunities?
+              </h2>
+              <div className="relative mt-8 flex flex-wrap justify-center gap-3">
+                <Link href="/contact" className="inline-flex rounded-full bg-on-primary px-5 py-2.5 text-[15px] font-medium text-primary transition-opacity hover:opacity-85">Get in touch</Link>
+                <a href={`mailto:${email}`} className="inline-flex rounded-full border border-on-primary/25 px-5 py-2.5 text-[15px] font-medium text-on-primary transition-colors hover:bg-on-primary/10">{email}</a>
               </div>
             </article>
           </Reveal>

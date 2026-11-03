@@ -1,36 +1,40 @@
+"use client";
 import Link from "next/link";
+import { useLanguage } from "../lib/i18n";
 import { ViewMark } from "./view-mark";
 
 export function SiteFooter() {
+  const { t } = useLanguage();
   const email = "hello@viewventures.co";
   return (
-    <footer className="border-t border-white/[0.06] bg-[#07090F]">
-      <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8">
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <ViewMark size={16} stroke="#FFFFFF" accent="#C49A2E" strokeWidth={6} />
-              <span className="text-[11px] font-light uppercase tracking-[0.28em] text-white/60">View Ventures</span>
+    <footer className="border-t border-hairline bg-surface-2">
+      <div className="page py-12">
+        <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2.5 text-ink">
+              <ViewMark size={28} />
+              <span className="text-[13px] font-semibold">View Ventures</span>
             </div>
-            <p className="font-display text-sm italic text-white/20">Same foundation, Wider view.</p>
-            <p className="font-mono text-[9px] font-light tracking-[0.14em] text-white/20">ΓΕΜΗ: 043682706000 · ΑΦΜ: EL999261857</p>
+            <p className="text-[13px] text-ink-3">Same foundation, Wider view.</p>
+            <p className="font-mono text-[11px] text-ink-3">ΓΕΜΗ: 043682706000 · ΑΦΜ: EL999261857</p>
           </div>
           <div className="flex gap-16">
-            <div className="flex flex-col gap-3">
-              <p className="font-mono text-[9px] font-light uppercase tracking-[0.24em] text-white/20">Company</p>
+            <div className="flex flex-col gap-2.5">
+              <p className="text-[12px] font-semibold text-ink">{t("company")}</p>
               {[
-                { label: "About", href: "/#about" },
-                { label: "Verticals", href: "/#verticals" },
-                { label: "News", href: "/news" },
-                { label: "Contact", href: "/contact" },
+                { label: t("about"), href: "/#about" },
+                { label: t("verticals"), href: "/#verticals" },
+                { label: t("news"), href: "/news" },
+                { label: t("contact"), href: "/contact" },
+                { label: t("book"), href: "/book" },
               ].map((item) => (
-                <Link key={item.label} href={item.href} className="text-[11px] font-light uppercase tracking-[0.18em] text-white/35 transition-colors hover:text-white">
+                <Link key={item.href} href={item.href} className="text-[12px] text-ink-2 transition-colors hover:text-ink">
                   {item.label}
                 </Link>
               ))}
             </div>
-            <div className="flex flex-col gap-3">
-              <p className="font-mono text-[9px] font-light uppercase tracking-[0.24em] text-white/20">Verticals</p>
+            <div className="flex flex-col gap-2.5">
+              <p className="text-[12px] font-semibold text-ink">{t("verticals")}</p>
               {[
                 { label: "Real Estate", href: "/verticals/real-estate" },
                 { label: "Transportation", href: "/verticals/transportation" },
@@ -38,16 +42,16 @@ export function SiteFooter() {
                 { label: "Wellness", href: "/verticals/wellness" },
                 { label: "Travel", href: "/verticals/travel" },
               ].map((item) => (
-                <Link key={item.label} href={item.href} className="text-[11px] font-light uppercase tracking-[0.18em] text-white/35 transition-colors hover:text-white">
+                <Link key={item.label} href={item.href} className="text-[12px] text-ink-2 transition-colors hover:text-ink">
                   {item.label}
                 </Link>
               ))}
             </div>
           </div>
         </div>
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[9px] font-light uppercase tracking-[0.16em] text-white/20">© 2026 View Ventures IKE · ΓΕΜΗ 043682706000 · ΑΦΜ EL999261857</p>
-          <a href={`mailto:${email}`} className="font-mono text-[9px] font-light tracking-[0.12em] text-white/20 transition-colors hover:text-white/50">{email}</a>
+        <div className="mt-10 flex flex-col gap-2 border-t border-hairline pt-6 text-[12px] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 View Ventures IKE · ΓΕΜΗ 043682706000 · ΑΦΜ EL999261857</p>
+          <a href={`mailto:${email}`} className="transition-colors hover:text-ink">{email}</a>
         </div>
       </div>
     </footer>

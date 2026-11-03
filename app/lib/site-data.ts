@@ -56,3 +56,15 @@ export const newsItems = [
       "The technology vertical has entered a final architecture and rollout preparation cycle.",
   },
 ] as const;
+
+// Regional pickup hubs for the Regency Casino shuttle network.
+export const transportRoutes = [
+  { id: "volos",   name: "Volos",   nameEl: "Βόλος",   phone: "+30 24210 70330, 70795",            lat: 39.3621, lng: 22.9427 },
+  { id: "larisa",  name: "Larisa",  nameEl: "Λάρισα",  phone: "+30 2410 257100",                   lat: 39.6390, lng: 22.4191 },
+  { id: "pieria",  name: "Pieria",  nameEl: "Πιερία",  phone: "+30 23510 21888",                   lat: 40.2247, lng: 22.4958 },
+  { id: "imathia", name: "Imathia", nameEl: "Ημαθία",  phone: "+30 23310 27116 | +30 23310 27711", lat: 40.5335, lng: 22.2043 },
+  { id: "pella",   name: "Pella",   nameEl: "Πέλλα",   phone: "+30 23810 89885",                   lat: 40.7629, lng: 22.5237 },
+  { id: "serres",  name: "Serres",  nameEl: "Σέρρες",  phone: "+30 23210 55402",                   lat: 41.0894, lng: 23.5484 },
+] as const;
+
+export const casino = { lat: 40.6196, lng: 22.9444, name: "Regency Casino Thessaloniki" };

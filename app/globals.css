@@ -1,82 +1,111 @@
 @import "tailwindcss";
 
+/* Light by default; dark follows the visitor's device setting. */
 :root {
-  --bg:     #07090F;
-  --bg-1:   #0C0F1A;
-  --bg-2:   #111520;
-  --bg-3:   #181D2E;
-  --line:   rgba(255,255,255,0.07);
-  --line-2: rgba(255,255,255,0.03);
-  --ink-1:  #FFFFFF;
-  --ink-2:  rgba(255,255,255,0.45);
-  --ink-3:  rgba(255,255,255,0.22);
-  --navy-1: #081630;
-  --navy-2: #101a2c;
-  --accent: #1456B4;
-  --sky:    #3A8FD4;
-  --gold:   #C49A2E;
-  --gold-2: #9B7215;
-  --cream-1: #F4F3EF;
-  --cream-2: #F8F6F1;
-  --surface-2: #ffffff;
-  --mist: rgba(255,255,255,0.06);
+  --canvas:     #FBFBFD;
+  --surface:    #FFFFFF;
+  --surface-2:  #F5F5F7;
+  --ink:        #1D1D1F;
+  --ink-2:      #6E6E73;
+  --ink-3:      #86868B;
+  --hairline:   rgba(0, 0, 0, 0.08);
+  --navy:       #1456B4;
+  --gold:       #A87B1F;
+  --primary:    #1D1D1F;
+  --on-primary: #FFFFFF;
+  --shadow:     0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 30px rgba(0, 0, 0, 0.04);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas:     #000000;
+    --surface:    #0F1013;
+    --surface-2:  #17181C;
+    --ink:        #F5F5F7;
+    --ink-2:      #A1A1A6;
+    --ink-3:      #6E6E73;
+    --hairline:   rgba(255, 255, 255, 0.1);
+    --navy:       #4D9BE0;
+    --gold:       #C9A03A;
+    --primary:    #F5F5F7;
+    --on-primary: #000000;
+    --shadow:     none;
+    color-scheme: dark;
+  }
 }
 
 @theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--ink-1);
-  --color-ink-1: var(--ink-1);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
-  --color-surface-2: var(--surface-2);
-  --color-cream-1: var(--cream-1);
-  --color-cream-2: var(--cream-2);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-navy-1: var(--navy-1);
-  --color-navy-2: var(--navy-2);
+  --color-hairline: var(--hairline);
+  --color-navy: var(--navy);
   --color-gold: var(--gold);
-  --color-mist: var(--mist);
-  --color-bg-1: var(--bg-1);
-  --color-bg-2: var(--bg-2);
-  --color-bg-3: var(--bg-3);
-  --font-sans: "Geist", "Helvetica Neue", sans-serif;
-  --font-mono: "Geist Mono", monospace;
-  --font-display: "Cormorant Garamond", Georgia, serif;
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--font-inter), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
-  position: relative;
   margin: 0;
-  color: var(--ink-1);
-  background: var(--bg);
-  font-family: "Geist", "Helvetica Neue", sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+  font-family: var(--font-sans);
   line-height: 1.5;
-  letter-spacing: -0.01em;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 40;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--gold) 30%, transparent);
+  background: color-mix(in oklab, var(--gold) 28%, transparent);
 }
 
+@layer components {
+  .page { @apply mx-auto w-full max-w-[1120px] px-4 sm:px-8; }
+  .eyebrow { @apply text-[13px] font-semibold tracking-[-0.005em] text-gold; }
+  .h-display { @apply text-[44px] font-semibold leading-[1.04] tracking-[-0.035em] text-ink sm:text-[72px]; }
+  .h-page { @apply text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[52px]; }
+  .h-section { @apply text-[30px] font-semibold leading-[1.1] tracking-[-0.028em] text-ink sm:text-[44px]; }
+  .h-card { @apply text-[19px] font-semibold tracking-[-0.018em] text-ink; }
+  .lead { @apply text-[17px] leading-[1.55] text-ink-2 sm:text-[19px]; }
+  .body { @apply text-[15px] leading-[1.6] text-ink-2; }
+  .card { @apply rounded-[22px] border border-hairline bg-surface; box-shadow: var(--shadow); }
+  .pill { @apply inline-flex items-center rounded-full bg-surface-2 px-2.5 py-1 text-[12px] font-medium text-ink-2; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-[15px] font-medium text-on-primary transition-opacity hover:opacity-85 disabled:opacity-50; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-full border border-hairline bg-surface px-5 py-2.5 text-[15px] font-medium text-ink transition-colors hover:bg-surface-2; }
+  .link-more { @apply inline-flex items-center gap-1 text-[15px] font-medium text-navy hover:underline; }
+  .field { @apply w-full rounded-xl border border-hairline bg-surface-2 px-3.5 py-2.5 text-[15px] text-ink outline-none transition-colors focus:border-navy; }
+}
+
+/* Map popups */
+.maplibregl-popup-content {
+  background: var(--surface) !important;
+  color: var(--ink);
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18) !important;
+  font-family: var(--font-sans);
+}
+.maplibregl-popup-tip { border-top-color: var(--surface) !important; border-bottom-color: var(--surface) !important; }
+.maplibregl-popup-close-button { color: var(--ink-3); font-size: 16px; padding: 0 6px; }
+
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.hero-fade-1 { animation: heroFadeUp 1s ease 0.1s both; }
-.hero-fade-2 { animation: heroFadeUp 1s ease 0.5s both; }
-.hero-fade-3 { animation: heroFadeUp 1s ease 0.9s both; }
-.hero-fade-4 { animation: heroFadeUp 1s ease 1.2s both; }
+.hero-fade-1 { animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
+.hero-fade-2 { animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both; }
+.hero-fade-3 { animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both; }
+.hero-fade-4 { animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-1, .hero-fade-2, .hero-fade-3, .hero-fade-4 { animation: none; }
+}
