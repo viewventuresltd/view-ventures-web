@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { PLACES } from "../lib/geo";
 import { useLanguage } from "../lib/i18n";
 import { handoffBooking, type BookingRequest, type CoachId } from "../lib/booking/handoff";
@@ -60,11 +60,19 @@ const COACHES: {
 
 const MAX_PASSENGERS = 55;
 
+// Every date and time on this page is Athens time, whatever the visitor's device says.
+const TZ = "Europe/Athens";
+const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+// +30, 00 and other international prefixes; spaces, dots, dashes and brackets allowed; 8–15 digits.
+const PHONE_RE = /^\+?[\d\s().-]+$/;
+
+const TIMES = Array.from({ length: 96 }, (_, i) => `${String(Math.floor(i / 4)).padStart(2, "0")}:${String((i % 4) * 15).padStart(2, "0")}`);
+
 const COPY = {
   en: {
     kicker: "Hermes · Coach & minibus hire",
     headline: "Book a bus for your group.",
-    sub: "From a 9-seat minivan to a full coach, anywhere in Greece.",
+    sub: "Hermes is the coach and minibus hire service of View Ventures — from a 9-seat minivan to a full coach, anywhere in Greece.",
     oneWay: "One way",
     roundTrip: "Return",
     from: "From",
@@ -72,44 +80,65 @@ const COPY = {
     swap: "Swap pickup and destination",
     when: "Depart",
     returnWhen: "Return",
+    date: "Date",
+    time: "Time",
+    pickDate: "Select date",
+    tzNote: "All dates and times are Athens time (EET/EEST), 24-hour clock.",
+    tzShort: "Athens time",
     passengers: "Passengers",
+    paxHint: "1 to 55",
     fewer: "Fewer passengers",
     more: "More passengers",
     search: "See vehicles",
     trust1: "No account needed",
     trust2: "Nothing is charged online",
-    trust3: "We come back with the next steps",
+    trust3: "Return trips and extra stops welcome",
     stepVehicle: "Choose your vehicle",
     stepDetails: "Your details",
     seats: "seats",
     bestFit: "Best fit",
     tooSmall: "Too small",
     selected: "Selected",
+    required: "required",
     name: "Full name",
     email: "Email",
     phone: "Phone",
     notes: "Notes",
-    notesHint: "Hotel, flight, child seats — optional",
+    notesHint: "Extra stops, hotel, flight, luggage, child seats — optional",
     summary: "Your trip",
     noDate: "Pick a departure",
     noVehicle: "Choose a vehicle",
-    pax: "passengers",
+    pax: (n: number) => (n === 1 ? "1 passenger" : `${n} passengers`),
     request: "Send booking request",
     sending: "Sending…",
     disclaimer: "Nothing is charged on this page.",
-    missing: "Fill the route, a name, an email, and a phone.",
+    fixTitle: "Please check:",
     samePlace: "Pick two different places.",
     needDate: "Pick a departure date and time.",
+    pastDate: "Departure must be in the future.",
+    needReturn: "Pick a return date and time.",
+    returnBefore: "Return must be after departure.",
     needVehicle: "Choose a vehicle that fits your group.",
-    failed: "We could not send your request. Please try again, or call us.",
+    needName: "Enter your full name.",
+    needEmail: "Enter your email.",
+    badEmail: "Enter a valid email, like name@example.com.",
+    needPhone: "Enter your phone number.",
+    badPhone: "Enter a valid phone number, e.g. +30 694 123 4567.",
+    failed: "We could not send your request. Please try again in a moment, or call us.",
+    retry: "Try again",
     received: "Thank you for your booking request.",
     receivedBody: "We will come back to you as soon as possible with the next steps.",
+    nextTitle: "What happens next",
+    next1: "We review your route, dates and vehicle.",
+    next2: "We come back to you with the next steps.",
+    next3: "Nothing is charged online.",
+    yourRequest: "Your request",
     another: "Request another trip",
   },
   el: {
     kicker: "Hermes · Μίσθωση πούλμαν & μίνι μπας",
     headline: "Κλείστε λεωφορείο για την παρέα σας.",
-    sub: "Από μίνι βαν 9 θέσεων μέχρι πλήρες πούλμαν, σε όλη την Ελλάδα.",
+    sub: "Το Hermes είναι η υπηρεσία μίσθωσης πούλμαν και μίνι μπας της View Ventures — από μίνι βαν 9 θέσεων μέχρι πλήρες πούλμαν, σε όλη την Ελλάδα.",
     oneWay: "Απλή",
     roundTrip: "Με επιστροφή",
     from: "Από",
@@ -117,41 +146,65 @@ const COPY = {
     swap: "Αντιστροφή αφετηρίας και προορισμού",
     when: "Αναχώρηση",
     returnWhen: "Επιστροφή",
+    date: "Ημερομηνία",
+    time: "Ώρα",
+    pickDate: "Επιλογή ημερομηνίας",
+    tzNote: "Όλες οι ημερομηνίες και ώρες είναι ώρα Ελλάδας (EET/EEST), 24ωρη μορφή.",
+    tzShort: "ώρα Ελλάδας",
     passengers: "Επιβάτες",
+    paxHint: "1 έως 55",
     fewer: "Λιγότεροι επιβάτες",
     more: "Περισσότεροι επιβάτες",
     search: "Δείτε οχήματα",
     trust1: "Χωρίς λογαριασμό",
     trust2: "Καμία χρέωση online",
-    trust3: "Επανερχόμαστε με τα επόμενα βήματα",
+    trust3: "Με επιστροφή και ενδιάμεσες στάσεις",
     stepVehicle: "Διαλέξτε όχημα",
     stepDetails: "Τα στοιχεία σας",
     seats: "θέσεις",
     bestFit: "Ιδανικό",
     tooSmall: "Μικρό",
     selected: "Επιλέχθηκε",
+    required: "υποχρεωτικό",
     name: "Ονοματεπώνυμο",
     email: "Email",
     phone: "Τηλέφωνο",
     notes: "Σημειώσεις",
-    notesHint: "Ξενοδοχείο, πτήση, παιδικά καθίσματα — προαιρετικά",
+    notesHint: "Ενδιάμεσες στάσεις, ξενοδοχείο, πτήση, αποσκευές, παιδικά καθίσματα — προαιρετικά",
     summary: "Η διαδρομή σας",
     noDate: "Επιλέξτε αναχώρηση",
     noVehicle: "Διαλέξτε όχημα",
-    pax: "επιβάτες",
+    pax: (n: number) => (n === 1 ? "1 επιβάτης" : `${n} επιβάτες`),
     request: "Αποστολή αιτήματος κράτησης",
     sending: "Αποστολή…",
     disclaimer: "Δεν γίνεται χρέωση σε αυτή τη σελίδα.",
-    missing: "Συμπληρώστε διαδρομή, όνομα, email και τηλέφωνο.",
+    fixTitle: "Ελέγξτε τα εξής:",
     samePlace: "Διαλέξτε δύο διαφορετικά μέρη.",
     needDate: "Επιλέξτε ημερομηνία και ώρα αναχώρησης.",
+    pastDate: "Η αναχώρηση πρέπει να είναι στο μέλλον.",
+    needReturn: "Επιλέξτε ημερομηνία και ώρα επιστροφής.",
+    returnBefore: "Η επιστροφή πρέπει να είναι μετά την αναχώρηση.",
     needVehicle: "Διαλέξτε όχημα που χωράει την παρέα σας.",
-    failed: "Δεν ήταν δυνατή η αποστολή. Δοκιμάστε ξανά ή καλέστε μας.",
+    needName: "Συμπληρώστε το ονοματεπώνυμό σας.",
+    needEmail: "Συμπληρώστε το email σας.",
+    badEmail: "Συμπληρώστε έγκυρο email, π.χ. name@example.com.",
+    needPhone: "Συμπληρώστε το τηλέφωνό σας.",
+    badPhone: "Συμπληρώστε έγκυρο τηλέφωνο, π.χ. +30 694 123 4567.",
+    failed: "Δεν ήταν δυνατή η αποστολή. Δοκιμάστε ξανά σε λίγο ή καλέστε μας.",
+    retry: "Δοκιμάστε ξανά",
     received: "Ευχαριστούμε για το αίτημα κράτησης.",
     receivedBody: "Θα επανέλθουμε το συντομότερο δυνατό με τα επόμενα βήματα.",
+    nextTitle: "Τι ακολουθεί",
+    next1: "Εξετάζουμε τη διαδρομή, τις ημερομηνίες και το όχημα.",
+    next2: "Επανερχόμαστε με τα επόμενα βήματα.",
+    next3: "Καμία χρέωση online.",
+    yourRequest: "Το αίτημά σας",
     another: "Νέο αίτημα",
   },
 } as const;
+
+type Field = "route" | "when" | "returnWhen" | "vehicle" | "name" | "email" | "phone";
+const FIELD_ORDER: Field[] = ["route", "when", "returnWhen", "vehicle", "name", "email", "phone"];
 
 function placeLabel(id: string, locale: "en" | "el") {
   const place = PLACES.find((p) => p.id === id);
@@ -159,22 +212,38 @@ function placeLabel(id: string, locale: "en" | "el") {
   return locale === "el" ? place.nameEl : place.nameEn;
 }
 
+// "Now" in Athens as "YYYY-MM-DDTHH:mm", so it compares directly with the form's values.
+function athensNow() {
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "00";
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
+}
+
+// Formats an Athens wall-clock value ("YYYY-MM-DD" or "YYYY-MM-DDTHH:mm") without shifting it into the device's zone.
+function formatDay(date: string, locale: "en" | "el") {
+  const [y, m, d] = date.split("-").map(Number);
+  if (!y || !m || !d) return date;
+  return new Intl.DateTimeFormat(locale === "el" ? "el-GR" : "en-GB", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short", year: "numeric" })
+    .format(new Date(Date.UTC(y, m - 1, d)))
+    .replace(",", "");
+}
+
 function formatWhen(value: string, locale: "en" | "el") {
   if (!value) return "";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value.replace("T", " ");
-  return d.toLocaleString(locale === "el" ? "el-GR" : "en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  const [date, time] = value.split("T");
+  return `${formatDay(date, locale)}, ${time} (${COPY[locale].tzShort})`;
 }
 
-function nowLocal() {
-  const d = new Date();
-  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-  return d.toISOString().slice(0, 16);
+function digitCount(value: string) {
+  return value.replace(/\D/g, "").length;
 }
 
-const segment = "flex min-w-0 flex-col rounded-2xl px-4 py-2.5 transition-colors focus-within:bg-surface-2 hover:bg-surface-2";
+const segment = "relative flex min-w-0 flex-col rounded-2xl px-4 py-2.5 transition-colors focus-within:bg-surface-2 hover:bg-surface-2";
+const segmentBad = "!bg-red-500/[0.06] ring-1 ring-inset ring-red-500/50";
 const segmentLabel = "text-[11px] font-semibold uppercase tracking-[0.04em] text-ink-3";
 const segmentInput = "w-full min-w-0 appearance-none bg-transparent text-[15px] font-medium text-ink outline-none";
+const fieldError = "text-[12px] font-medium text-red-600 dark:text-red-400";
+const fieldBad = "!border-red-500/70 focus:!ring-red-500/20";
 
 function StepHeading({ n, title, done }: { n: number; title: string; done: boolean }) {
   return (
@@ -187,50 +256,185 @@ function StepHeading({ n, title, done }: { n: number; title: string; done: boole
   );
 }
 
+function ErrorText({ id, children }: { id: string; children: ReactNode }) {
+  return (
+    <p id={id} className={`mt-1 ${fieldError}`}>
+      {children}
+    </p>
+  );
+}
+
+// Date + 24-hour time in one segment. The native date picker opens on click, but the shown value
+// is formatted by us, so it reads "Fri 1 Jan 2027" instead of the browser's mm/dd/yyyy.
+function DateTimeSegment({
+  label,
+  date,
+  time,
+  minDate,
+  locale,
+  error,
+  errorId,
+  inputRef,
+  onDate,
+  onTime,
+}: {
+  label: string;
+  date: string;
+  time: string;
+  minDate: string;
+  locale: "en" | "el";
+  error?: string;
+  errorId: string;
+  inputRef: (el: HTMLInputElement | null) => void;
+  onDate: (v: string) => void;
+  onTime: (v: string) => void;
+}) {
+  const t = COPY[locale];
+  const openPicker = (el: HTMLInputElement) => {
+    try {
+      el.showPicker?.();
+    } catch {}
+  };
+  return (
+    <div className={`${segment} ${error ? segmentBad : ""}`}>
+      <span className={segmentLabel}>
+        {label} <span className="sr-only">({t.tzNote})</span>
+      </span>
+      <div className="flex items-center gap-2">
+        <div className="relative min-w-0 flex-1">
+          <span aria-hidden="true" className={`block truncate text-[15px] font-medium ${date ? "text-ink" : "text-ink-3"}`}>
+            {date ? formatDay(date, locale) : t.pickDate}
+          </span>
+          <input
+            ref={inputRef}
+            type="date"
+            aria-label={`${label} — ${t.date}`}
+            aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
+            min={minDate}
+            value={date}
+            onChange={(e) => onDate(e.target.value)}
+            onClick={(e) => openPicker(e.currentTarget)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openPicker(e.currentTarget);
+              }
+            }}
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          />
+        </div>
+        <select
+          aria-label={`${label} — ${t.time}`}
+          className="shrink-0 cursor-pointer appearance-none rounded-lg bg-surface-2 px-2 py-0.5 text-[15px] font-medium tabular-nums text-ink outline-none focus-visible:ring-2 focus-visible:ring-navy/40"
+          value={time}
+          onChange={(e) => onTime(e.target.value)}
+        >
+          {TIMES.map((v) => (
+            <option key={v} value={v}>
+              {v}
+            </option>
+          ))}
+        </select>
+      </div>
+      {error ? <ErrorText id={errorId}>{error}</ErrorText> : null}
+    </div>
+  );
+}
+
 export function CoachRequest() {
   const { lang: locale } = useLanguage();
   const t = COPY[locale];
   const [roundTrip, setRoundTrip] = useState(false);
   const [pickup, setPickup] = useState("athens");
   const [destination, setDestination] = useState("thessaloniki");
-  const [when, setWhen] = useState("");
-  const [returnWhen, setReturnWhen] = useState("");
+  const [whenDate, setWhenDate] = useState("");
+  const [whenTime, setWhenTime] = useState("10:00");
+  const [returnDate, setReturnDate] = useState("");
+  const [returnTime, setReturnTime] = useState("18:00");
   const [passengers, setPassengers] = useState(12);
+  const [paxText, setPaxText] = useState("12");
   const [coachId, setCoachId] = useState<CoachId | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
-  const [error, setError] = useState("");
+  const [touched, setTouched] = useState<Partial<Record<Field, boolean>>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<BookingRequest | null>(null);
   const vehiclesRef = useRef<HTMLElement>(null);
+  const fieldRefs = useRef<Partial<Record<Field, HTMLElement | null>>>({});
+  const bind = (field: Field) => (el: HTMLElement | null) => {
+    fieldRefs.current[field] = el;
+  };
+  const touch = (field: Field) => setTouched((prev) => (prev[field] ? prev : { ...prev, [field]: true }));
 
+  const when = whenDate ? `${whenDate}T${whenTime}` : "";
+  const returnWhen = roundTrip && returnDate ? `${returnDate}T${returnTime}` : "";
   const bestFit = useMemo(() => COACHES.find((c) => c.seats >= passengers)?.id ?? null, [passengers]);
   const coach = COACHES.find((c) => c.id === coachId && c.seats >= passengers) ?? null;
-  const contactDone = name.trim() !== "" && email.includes("@") && phone.trim().length >= 6;
 
-  const setPax = (n: number) => setPassengers(Math.max(1, Math.min(MAX_PASSENGERS, Math.round(n) || 1)));
+  const errors: Partial<Record<Field, string>> = {};
+  if (pickup === destination) errors.route = t.samePlace;
+  if (!when) errors.when = t.needDate;
+  else if (when <= athensNow()) errors.when = t.pastDate;
+  if (roundTrip) {
+    if (!returnWhen) errors.returnWhen = t.needReturn;
+    else if (when && returnWhen <= when) errors.returnWhen = t.returnBefore;
+  }
+  if (!coach) errors.vehicle = t.needVehicle;
+  if (!name.trim()) errors.name = t.needName;
+  if (!email.trim()) errors.email = t.needEmail;
+  else if (!EMAIL_RE.test(email.trim()) || email.trim().length > 254) errors.email = t.badEmail;
+  if (!phone.trim()) errors.phone = t.needPhone;
+  else if (!PHONE_RE.test(phone.trim()) || digitCount(phone) < 8 || digitCount(phone) > 15) errors.phone = t.badPhone;
+
+  // Route and date problems show as soon as they happen; contact fields wait for blur or submit.
+  const shown = (field: Field) => (field === "route" || submitted || touched[field] ? errors[field] : undefined);
+  const contactDone = !errors.name && !errors.email && !errors.phone;
+  const visibleErrors = FIELD_ORDER.filter((f) => shown(f));
+  const minDate = athensNow().slice(0, 10);
+
+  function commitPax(n: number) {
+    const value = Number.isFinite(n) ? Math.max(1, Math.min(MAX_PASSENGERS, Math.trunc(n))) : 1;
+    setPassengers(value);
+    setPaxText(String(value));
+  }
+
+  function onPaxInput(raw: string) {
+    // Keep what was typed (including a leading minus) until blur, so "-5" is never read as "5".
+    const cleaned = raw.replace(/[^\d-]/g, "").replace(/(?!^)-/g, "");
+    setPaxText(cleaned);
+    const n = Number.parseInt(cleaned, 10);
+    if (Number.isFinite(n) && n >= 1 && n <= MAX_PASSENGERS) setPassengers(n);
+  }
+
+  function focusField(field: Field) {
+    const el = field === "vehicle" ? vehiclesRef.current : fieldRefs.current[field];
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.focus({ preventScroll: true });
+  }
 
   function showVehicles() {
-    if (pickup === destination) return setError(t.samePlace);
-    setError("");
+    if (errors.route) return focusField("route");
     if (!coachId && bestFit) setCoachId(bestFit);
     vehiclesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function submit() {
-    if (pickup === destination) return setError(t.samePlace);
-    if (!when) return setError(t.needDate);
-    if (!coach) return setError(t.needVehicle);
-    if (!contactDone) return setError(t.missing);
-    setError("");
+    setSubmitted(true);
+    setFailed(false);
+    const first = FIELD_ORDER.find((f) => errors[f]);
+    if (first || !coach) return focusField(first ?? "vehicle");
     setSending(true);
     const request: BookingRequest = {
       pickup: placeLabel(pickup, locale),
       destination: placeLabel(destination, locale),
       when,
-      returnWhen: roundTrip ? returnWhen : "",
+      returnWhen,
       passengers,
       coachId: coach.id,
       coachLabel: `${locale === "el" ? coach.el : coach.en} (${coach.seatsLabel})`,
@@ -240,40 +444,67 @@ export function CoachRequest() {
       notes: notes.trim(),
     };
     try {
-      await handoffBooking(request);
+      const { delivered } = await handoffBooking(request);
+      if (!delivered) throw new Error("not delivered");
       setSent(request);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
-      setError(t.failed);
+      setFailed(true);
     } finally {
       setSending(false);
     }
   }
 
+  function reset() {
+    setSent(null);
+    setSubmitted(false);
+    setTouched({});
+    setFailed(false);
+  }
+
   if (sent) {
     return (
-      <section className="page max-w-2xl py-16 sm:py-24">
+      <section className="page max-w-2xl py-16 sm:py-24" aria-live="polite">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10 text-[26px] text-green-600">✓</div>
         <h1 className="h-page mt-6">{t.received}</h1>
         <p className="lead mt-5">{t.receivedBody}</p>
-        <div className="card mt-10 p-6 text-[15px]">
-          <p className="text-[19px] font-semibold tracking-[-0.015em]">
+
+        <div className="mt-10">
+          <p className="text-[15px] font-semibold">{t.nextTitle}</p>
+          <ol className="mt-3 space-y-2 text-[15px] text-ink-2">
+            {[t.next1, t.next2, t.next3].map((step, i) => (
+              <li key={step} className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface-2 text-[12px] font-semibold text-ink-2">{i + 1}</span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="card mt-8 p-6 text-[15px]">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-ink-3">{t.yourRequest}</p>
+          <p className="mt-2 text-[19px] font-semibold tracking-[-0.015em]">
             {sent.pickup}
-            <span className="mx-2 text-ink-3">→</span>
+            <span className="mx-2 text-ink-3">{sent.returnWhen ? "⇄" : "→"}</span>
             {sent.destination}
           </p>
           <p className="mt-2 text-ink-2">
-            {formatWhen(sent.when, locale)}
-            {sent.returnWhen ? ` · ${t.returnWhen}: ${formatWhen(sent.returnWhen, locale)}` : ""}
+            {t.when}: {formatWhen(sent.when, locale)}
           </p>
+          {sent.returnWhen ? (
+            <p className="mt-1 text-ink-2">
+              {t.returnWhen}: {formatWhen(sent.returnWhen, locale)}
+            </p>
+          ) : null}
           <p className="mt-1 text-ink-2">
-            {sent.coachLabel} · {sent.passengers} {t.pax}
+            {sent.coachLabel} · {t.pax(sent.passengers)}
           </p>
-          <p className="mt-1 text-ink-2">
+          <p className="mt-1 break-words text-ink-2">
             {sent.name} · {sent.email} · {sent.phone}
           </p>
+          {sent.notes ? <p className="mt-1 whitespace-pre-line break-words text-ink-2">{sent.notes}</p> : null}
         </div>
-        <button type="button" className="btn-secondary mt-6" onClick={() => setSent(null)}>
+        <button type="button" className="btn-secondary mt-6" onClick={reset}>
           {t.another}
         </button>
       </section>
@@ -285,6 +516,32 @@ export function CoachRequest() {
       {locale === "el" ? p.nameEl : p.nameEn}
     </option>
   ));
+
+  const contactField = (field: "name" | "email" | "phone", label: string, props: { type: string; value: string; set: (v: string) => void; autoComplete: string; inputMode?: "email" | "tel" }, wide = false) => {
+    const error = shown(field);
+    return (
+      <label className={`flex flex-col gap-1.5 text-[13px] text-ink-2 ${wide ? "sm:col-span-2" : ""}`}>
+        <span>
+          {label} <span aria-hidden="true" className="text-red-600">*</span>
+          <span className="sr-only">({t.required})</span>
+        </span>
+        <input
+          ref={bind(field)}
+          className={`field !py-3 ${error ? fieldBad : ""}`}
+          type={props.type}
+          inputMode={props.inputMode}
+          required
+          aria-invalid={!!error}
+          aria-describedby={error ? `err-${field}` : undefined}
+          value={props.value}
+          onChange={(e) => props.set(e.target.value)}
+          onBlur={() => touch(field)}
+          autoComplete={props.autoComplete}
+        />
+        {error ? <ErrorText id={`err-${field}`}>{error}</ErrorText> : null}
+      </label>
+    );
+  };
 
   return (
     <div>
@@ -300,7 +557,7 @@ export function CoachRequest() {
         <div className="page relative flex min-h-[720px] flex-col pb-[300px] pt-14 sm:min-h-[760px] sm:pb-[320px] sm:pt-20">
           <p className="text-[13px] font-semibold text-[#8a5a12]">{t.kicker}</p>
           <h1 className="mt-3 max-w-3xl text-[40px] font-semibold leading-[1.04] tracking-[-0.035em] text-[#1D1D1F] sm:text-[64px]">{t.headline}</h1>
-          <p className="mt-4 max-w-xl text-[17px] text-[#1D1D1F]/70 sm:text-[19px]">{t.sub}</p>
+          <p className="mt-4 max-w-2xl text-[17px] text-[#1D1D1F]/75 sm:text-[19px]">{t.sub}</p>
 
           <div className="mt-8 rounded-[28px] border border-hairline bg-surface/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.12)] backdrop-blur-xl">
             <div className="flex items-center gap-1 px-2 pb-1 pt-1">
@@ -310,17 +567,19 @@ export function CoachRequest() {
                   type="button"
                   aria-pressed={roundTrip === rt}
                   onClick={() => setRoundTrip(rt)}
-                  className={`rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${roundTrip === rt ? "bg-primary text-on-primary" : "text-ink-2 hover:bg-surface-2"}`}
+                  className={`rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors ${roundTrip === rt ? "bg-primary text-on-primary" : "text-ink-2 hover:bg-surface-2"}`}
                 >
                   {rt ? t.roundTrip : t.oneWay}
                 </button>
               ))}
             </div>
 
-            <div className={`grid gap-1 md:items-center ${roundTrip ? "md:grid-cols-[1fr_auto_1fr_1fr_1fr_auto_auto]" : "md:grid-cols-[1fr_auto_1fr_1fr_auto_auto]"}`}>
-              <label className={segment}>
+            <div className={`grid gap-1 lg:items-start ${roundTrip ? "lg:grid-cols-[1fr_auto_1fr_1.25fr_1.25fr_auto_auto]" : "lg:grid-cols-[1fr_auto_1fr_1.25fr_auto_auto]"}`}>
+              <label className={`${segment} ${errors.route ? segmentBad : ""}`}>
                 <span className={segmentLabel}>{t.from}</span>
-                <select className={segmentInput} value={pickup} onChange={(e) => setPickup(e.target.value)}>{placeOptions}</select>
+                <select className={segmentInput} value={pickup} onChange={(e) => setPickup(e.target.value)} aria-invalid={!!errors.route} aria-describedby={errors.route ? "err-route" : undefined}>
+                  {placeOptions}
+                </select>
               </label>
               <button
                 type="button"
@@ -329,42 +588,88 @@ export function CoachRequest() {
                   setPickup(destination);
                   setDestination(pickup);
                 }}
-                className="mx-auto flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-surface text-ink-2 transition-colors hover:text-ink max-md:-my-3 max-md:rotate-90"
+                className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface text-ink-2 transition-colors hover:text-ink max-lg:-my-3 max-lg:rotate-90 lg:mt-3"
               >
                 ⇄
               </button>
-              <label className={segment}>
+              <label className={`${segment} ${errors.route ? segmentBad : ""}`}>
                 <span className={segmentLabel}>{t.to}</span>
-                <select className={segmentInput} value={destination} onChange={(e) => setDestination(e.target.value)}>{placeOptions}</select>
+                <select ref={bind("route")} className={segmentInput} value={destination} onChange={(e) => setDestination(e.target.value)} aria-invalid={!!errors.route} aria-describedby={errors.route ? "err-route" : undefined}>
+                  {placeOptions}
+                </select>
+                {errors.route ? <ErrorText id="err-route">{errors.route}</ErrorText> : null}
               </label>
-              <label className={segment}>
-                <span className={segmentLabel}>{t.when}</span>
-                <input className={segmentInput} type="datetime-local" min={nowLocal()} value={when} onChange={(e) => setWhen(e.target.value)} />
-              </label>
+              <DateTimeSegment
+                label={t.when}
+                date={whenDate}
+                time={whenTime}
+                minDate={minDate}
+                locale={locale}
+                error={shown("when")}
+                errorId="err-when"
+                inputRef={bind("when")}
+                onDate={(v) => {
+                  setWhenDate(v);
+                  touch("when");
+                }}
+                onTime={(v) => {
+                  setWhenTime(v);
+                  touch("when");
+                }}
+              />
               {roundTrip && (
-                <label className={segment}>
-                  <span className={segmentLabel}>{t.returnWhen}</span>
-                  <input className={segmentInput} type="datetime-local" min={when || nowLocal()} value={returnWhen} onChange={(e) => setReturnWhen(e.target.value)} />
-                </label>
+                <DateTimeSegment
+                  label={t.returnWhen}
+                  date={returnDate}
+                  time={returnTime}
+                  minDate={whenDate || minDate}
+                  locale={locale}
+                  error={shown("returnWhen")}
+                  errorId="err-returnWhen"
+                  inputRef={bind("returnWhen")}
+                  onDate={(v) => {
+                    setReturnDate(v);
+                    touch("returnWhen");
+                  }}
+                  onTime={(v) => {
+                    setReturnTime(v);
+                    touch("returnWhen");
+                  }}
+                />
               )}
               <div className={segment}>
-                <span className={segmentLabel}>{t.passengers}</span>
+                <span className={segmentLabel} id="pax-label">
+                  {t.passengers}
+                </span>
                 <div className="mt-0.5 flex items-center gap-2">
-                  <button type="button" aria-label={t.fewer} onClick={() => setPax(passengers - 1)} className="flex h-7 w-7 items-center justify-center rounded-full border border-hairline text-ink-2 hover:text-ink">−</button>
+                  <button type="button" aria-label={t.fewer} onClick={() => commitPax(passengers - 1)} disabled={passengers <= 1} className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-2 hover:text-ink disabled:opacity-40">
+                    −
+                  </button>
                   <input
-                    aria-label={t.passengers}
+                    aria-labelledby="pax-label"
+                    aria-describedby="pax-hint"
                     inputMode="numeric"
-                    className="w-9 bg-transparent text-center text-[15px] font-semibold tabular-nums text-ink outline-none"
-                    value={passengers}
-                    onChange={(e) => setPax(Number(e.target.value))}
+                    className="w-10 bg-transparent text-center text-[15px] font-semibold tabular-nums text-ink outline-none"
+                    value={paxText}
+                    onChange={(e) => onPaxInput(e.target.value)}
+                    onBlur={() => commitPax(Number.parseInt(paxText, 10))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") commitPax(Number.parseInt(paxText, 10));
+                    }}
                   />
-                  <button type="button" aria-label={t.more} onClick={() => setPax(passengers + 1)} className="flex h-7 w-7 items-center justify-center rounded-full border border-hairline text-ink-2 hover:text-ink">+</button>
+                  <button type="button" aria-label={t.more} onClick={() => commitPax(passengers + 1)} disabled={passengers >= MAX_PASSENGERS} className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-2 hover:text-ink disabled:opacity-40">
+                    +
+                  </button>
                 </div>
+                <span id="pax-hint" className="sr-only">
+                  {t.paxHint}
+                </span>
               </div>
-              <button type="button" onClick={showVehicles} className="btn-primary m-1 !px-6 !py-3.5">
+              <button type="button" onClick={showVehicles} className="btn-primary m-1 !px-6 !py-3.5 lg:mt-2">
                 {t.search} <span aria-hidden="true">→</span>
               </button>
             </div>
+            <p className="px-4 pb-2 pt-1 text-[12px] text-ink-3">{t.tzNote}</p>
           </div>
 
           <ul className="mt-4 flex flex-wrap gap-2 text-[13px] font-medium text-[#1D1D1F]">
@@ -381,8 +686,9 @@ export function CoachRequest() {
       {/* STEPS + SUMMARY */}
       <div className="page grid gap-10 py-16 sm:py-20 lg:grid-cols-[1fr_360px]">
         <div className="min-w-0 space-y-16">
-          <section ref={vehiclesRef} className="scroll-mt-24">
+          <section ref={vehiclesRef} tabIndex={-1} className="scroll-mt-24 outline-none" aria-describedby={shown("vehicle") ? "err-vehicle" : undefined}>
             <StepHeading n={1} title={t.stepVehicle} done={!!coach} />
+            {shown("vehicle") ? <ErrorText id="err-vehicle">{shown("vehicle")}</ErrorText> : null}
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {COACHES.map((c) => {
                 const small = passengers > c.seats;
@@ -394,10 +700,7 @@ export function CoachRequest() {
                     type="button"
                     disabled={small}
                     aria-pressed={selected}
-                    onClick={() => {
-                      setCoachId(c.id);
-                      setError("");
-                    }}
+                    onClick={() => setCoachId(c.id)}
                     className={`group relative flex items-center gap-4 rounded-[22px] border bg-surface p-3 pr-5 text-left transition-all disabled:cursor-not-allowed disabled:opacity-45 ${
                       selected ? "border-navy shadow-[0_0_0_3px_color-mix(in_oklab,var(--navy)_18%,transparent)]" : "border-hairline hover:border-ink-3"
                     }`}
@@ -436,21 +739,12 @@ export function CoachRequest() {
           <section>
             <StepHeading n={2} title={t.stepDetails} done={contactDone} />
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <label className="flex flex-col gap-1.5 text-[13px] text-ink-2 sm:col-span-2">
-                {t.name}
-                <input className="field !py-3" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-              </label>
-              <label className="flex flex-col gap-1.5 text-[13px] text-ink-2">
-                {t.email}
-                <input className="field !py-3" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
-              </label>
-              <label className="flex flex-col gap-1.5 text-[13px] text-ink-2">
-                {t.phone}
-                <input className="field !py-3" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
-              </label>
+              {contactField("name", t.name, { type: "text", value: name, set: setName, autoComplete: "name" }, true)}
+              {contactField("email", t.email, { type: "email", value: email, set: setEmail, autoComplete: "email", inputMode: "email" })}
+              {contactField("phone", t.phone, { type: "tel", value: phone, set: setPhone, autoComplete: "tel", inputMode: "tel" })}
               <label className="flex flex-col gap-1.5 text-[13px] text-ink-2 sm:col-span-2">
                 {t.notes}
-                <textarea className="field min-h-28 resize-y" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t.notesHint} />
+                <textarea className="field min-h-28 resize-y" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t.notesHint} maxLength={2000} />
               </label>
             </div>
           </section>
@@ -473,7 +767,7 @@ export function CoachRequest() {
                   <span className="absolute -left-[26px] top-1 h-3 w-3 rounded-full bg-gold" />
                   <p className="text-[12px] text-ink-3">{t.to}</p>
                   <p className="text-[16px] font-semibold">{placeLabel(destination, locale)}</p>
-                  {roundTrip && returnWhen && (
+                  {returnWhen && (
                     <p className="text-[13px] text-ink-2">
                       {t.returnWhen}: {formatWhen(returnWhen, locale)}
                     </p>
@@ -490,20 +784,35 @@ export function CoachRequest() {
                 <div className="min-w-0">
                   <p className={`text-[14px] font-semibold ${coach ? "" : "text-ink-3"}`}>{coach ? (locale === "el" ? coach.el : coach.en) : t.noVehicle}</p>
                   <p className="text-[13px] text-ink-2">
-                    {passengers} {t.pax}
+                    {t.pax(passengers)}
                     {coach ? ` · ${coach.seatsLabel} ${t.seats}` : ""}
                   </p>
                 </div>
               </div>
 
-              {error ? (
-                <p role="alert" className="rounded-xl bg-red-500/10 px-3 py-2 text-[13px] text-red-600">
-                  {error}
-                </p>
+              {submitted && visibleErrors.length > 0 ? (
+                <div role="alert" className="rounded-xl bg-red-500/10 px-3 py-2.5 text-[13px] text-red-700 dark:text-red-300">
+                  <p className="font-semibold">{t.fixTitle}</p>
+                  <ul className="mt-1 space-y-0.5">
+                    {visibleErrors.map((f) => (
+                      <li key={f}>
+                        <button type="button" onClick={() => focusField(f)} className="text-left underline-offset-2 hover:underline">
+                          {errors[f]}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {failed ? (
+                <div role="alert" className="rounded-xl bg-red-500/10 px-3 py-2.5 text-[13px] text-red-700 dark:text-red-300">
+                  {t.failed}
+                </div>
               ) : null}
 
               <button type="button" onClick={submit} disabled={sending} className="btn-primary w-full !py-3.5">
-                {sending ? t.sending : t.request}
+                {sending ? t.sending : failed ? t.retry : t.request}
               </button>
               <p className="text-center text-[12px] text-ink-3">{t.disclaimer}</p>
             </div>

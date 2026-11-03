@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useLanguage } from "../lib/i18n";
 import { casino, transportRoutes } from "../lib/site-data";
 
 const W = 900;
@@ -25,10 +26,11 @@ const paths = transportRoutes.map((r, i) => {
 });
 
 export function HeroRoutes() {
+  const { lang } = useLanguage();
   const reduce = useReducedMotion();
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" className="h-[440px] w-full sm:h-auto" role="img" aria-label="Bus routes from six regions of Northern Greece converging on Thessaloniki">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" className="h-[440px] w-full sm:h-auto" role="img" aria-label={lang === "el" ? "Γραμμές λεωφορείων από έξι περιοχές της Βόρειας Ελλάδας προς τη Θεσσαλονίκη" : "Bus routes from six regions of Northern Greece converging on Thessaloniki"}>
       <defs>
         <pattern id="hero-dots" width="18" height="18" patternUnits="userSpaceOnUse">
           <circle cx="1.5" cy="1.5" r="1.1" className="fill-ink-3" opacity="0.35" />
@@ -69,7 +71,7 @@ export function HeroRoutes() {
             textAnchor={r.p.x < hub.x ? "end" : "start"}
             className="fill-ink-2 text-[13px] font-medium"
           >
-            {r.name}
+            {lang === "el" ? r.nameEl : r.name}
           </text>
         </g>
       ))}
@@ -82,7 +84,7 @@ export function HeroRoutes() {
           </circle>
         )}
         <circle cx={hub.x} cy={hub.y} r="8" className="fill-gold stroke-surface" strokeWidth={3} />
-        <text x={hub.x + 16} y={hub.y - 10} className="fill-ink text-[15px] font-semibold">Thessaloniki</text>
+        <text x={hub.x + 16} y={hub.y - 10} className="fill-ink text-[15px] font-semibold">{lang === "el" ? "Θεσσαλονίκη" : "Thessaloniki"}</text>
       </g>
     </svg>
   );

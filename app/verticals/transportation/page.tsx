@@ -4,6 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { useLanguage } from "../../lib/i18n";
 import { transportRoutes as routes } from "../../lib/site-data";
 
 const TransportationMap = dynamic(() => import("../../components/transportation-map"), { ssr: false, loading: () => <div style={{ height: "440px" }} className="animate-pulse rounded-2xl bg-surface-2" /> });
@@ -229,7 +230,78 @@ const schedules = [
   },
 ];
 
+const TITLES_EL: Record<string, string> = {
+  "Morning — City Route": "Πρωινή — Αστική γραμμή",
+  "Evening — City Route A": "Απογευματινή — Αστική γραμμή Α",
+  "Evening — City Route B": "Απογευματινή — Αστική γραμμή Β",
+  "Evening — City Route C": "Απογευματινή — Αστική γραμμή Γ",
+  "Kalamaria Route": "Γραμμή Καλαμαριάς",
+  "Night — City Route": "Βραδινή — Αστική γραμμή",
+  "Serres Route": "Γραμμή Σερρών",
+  "Skydra – Giannitsa – Chalkidona – Gefyra": "Σκύδρα – Γιαννιτσά – Χαλκηδόνα – Γέφυρα",
+  "Naousa – Veroia – Alexandreia": "Νάουσα – Βέροια – Αλεξάνδρεια",
+  "Katerini Route": "Γραμμή Κατερίνης",
+  "Larisa Route": "Γραμμή Λάρισας",
+  "Volos Route": "Γραμμή Βόλου",
+};
+
+const DAYS_EL: [RegExp, string][] = [
+  [/\bDaily\b/g, "Καθημερινά"],
+  [/\bMon\b/g, "Δευ"],
+  [/\bTue\b/g, "Τρί"],
+  [/\bWed\b/g, "Τετ"],
+  [/\bThu\b/g, "Πέμ"],
+  [/\bFri\b/g, "Παρ"],
+  [/\bSat\b/g, "Σάβ"],
+  [/\bSun\b/g, "Κυρ"],
+];
+
+const COPY = {
+  en: {
+    eyebrow: "Vertical / Transportation",
+    title: "Free transportation to Regency Casino Thessaloniki.",
+    lead: "We operate complimentary bus services from six regional hubs directly to Regency Casino Thessaloniki. Hover over a route on the map to see contact & reservation details.",
+    timetable: "Full timetable",
+    mapTitle: "Regional Route Map",
+    mapHint: "Hover over a route line or city to see reservations contact",
+    reservations: "Contact — Reservations",
+    scheduleEyebrow: "Bus Schedule",
+    scheduleTitle: "Full Timetable",
+    scheduleHint: "Click a route to expand the full stop list.",
+    arrives: "Arrives",
+    departs: "Departs",
+    casinoStop: "Casino",
+    legal: "Regulating Authority: HGC. Must be 21+ to enter. Frequent gambling may lead to addiction. Help line KETHEA-ALPHA: 210 921 5776. Play responsibly.",
+    clientEyebrow: "Our Client",
+    clientBody: "View Ventures operates the complimentary transportation network for Regency Casino Thessaloniki — the premier entertainment destination in Northern Greece. Visit their official page for full service details and reservations.",
+    clientButton: "View Transportation Info",
+  },
+  el: {
+    eyebrow: "Τομέας / Μεταφορές",
+    title: "Δωρεάν μεταφορά στο Regency Casino Thessaloniki.",
+    lead: "Λειτουργούμε δωρεάν λεωφορεία από έξι περιφερειακούς κόμβους απευθείας στο Regency Casino Thessaloniki. Περάστε τον δείκτη πάνω από μια γραμμή στον χάρτη για στοιχεία επικοινωνίας και κρατήσεων.",
+    timetable: "Πλήρες πρόγραμμα",
+    mapTitle: "Χάρτης περιφερειακών γραμμών",
+    mapHint: "Περάστε τον δείκτη πάνω από γραμμή ή πόλη για το τηλέφωνο κρατήσεων",
+    reservations: "Επικοινωνία — Κρατήσεις",
+    scheduleEyebrow: "Δρομολόγια",
+    scheduleTitle: "Πλήρες πρόγραμμα",
+    scheduleHint: "Πατήστε μια γραμμή για να δείτε όλες τις στάσεις.",
+    arrives: "Άφιξη",
+    departs: "Αναχώρηση",
+    casinoStop: "Καζίνο",
+    legal: "Ρυθμιστική αρχή: ΕΕΕΠ. Είσοδος μόνο για άτομα 21+. Ο συχνός τζόγος μπορεί να οδηγήσει σε εθισμό. Γραμμή βοήθειας ΚΕΘΕΑ-ΑΛΦΑ: 210 921 5776. Παίξτε υπεύθυνα.",
+    clientEyebrow: "Ο πελάτης μας",
+    clientBody: "Η View Ventures λειτουργεί το δίκτυο δωρεάν μεταφοράς του Regency Casino Thessaloniki — του κορυφαίου προορισμού ψυχαγωγίας στη Βόρεια Ελλάδα. Δείτε την επίσημη σελίδα τους για όλες τις λεπτομέρειες και κρατήσεις.",
+    clientButton: "Πληροφορίες μεταφοράς",
+  },
+} as const;
+
 export default function TransportationPage() {
+  const { lang } = useLanguage();
+  const c = COPY[lang];
+  const tr = (value: string) => (lang === "el" ? DAYS_EL.reduce((v, [re, el]) => v.replace(re, el), value) : value);
+
   const [openSchedule, setOpenSchedule] = useState<number | null>(null);
 
   return (
@@ -238,20 +310,20 @@ export default function TransportationPage() {
       <main className="page pb-24 pt-14 sm:pt-20">
 
         {/* HEADER */}
-        <p className="eyebrow">Vertical / Transportation</p>
+        <p className="eyebrow">{c.eyebrow}</p>
         <h1 className="h-page mt-3 max-w-3xl">
-          Free transportation to Regency Casino Thessaloniki.
+          {c.title}
         </h1>
         <p className="lead mt-5 max-w-2xl">
-          We operate complimentary bus services from six regional hubs directly to Regency Casino Thessaloniki. Hover over a route on the map to see contact & reservation details.
+          {c.lead}
         </p>
-        <a href="#timetable" className="btn-secondary mt-7">Full timetable</a>
+        <a href="#timetable" className="btn-secondary mt-7">{c.timetable}</a>
 
         {/* MAP */}
         <div className="card mt-12 p-3 sm:p-4">
           <div className="flex flex-wrap items-baseline justify-between gap-2 px-2 pb-3 pt-1">
-            <p className="text-[15px] font-semibold">Regional Route Map</p>
-            <p className="text-[13px] text-ink-3">Hover over a route line or city to see reservations contact</p>
+            <p className="text-[15px] font-semibold">{c.mapTitle}</p>
+            <p className="text-[13px] text-ink-3">{c.mapHint}</p>
           </div>
 
           <TransportationMap />
@@ -260,8 +332,8 @@ export default function TransportationPage() {
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:hidden">
             {routes.map((route) => (
               <a key={route.id} href={`tel:${route.phone.split(/[,|]/)[0].replace(/\s/g, "")}`} className="rounded-xl bg-surface-2 px-4 py-3">
-                <p className="text-[12px] font-medium text-gold">Contact — Reservations</p>
-                <p className="mt-0.5 text-[15px] font-semibold">{route.name}</p>
+                <p className="text-[12px] font-medium text-gold">{c.reservations}</p>
+                <p className="mt-0.5 text-[15px] font-semibold">{lang === "el" ? route.nameEl : route.name}</p>
                 <p className="mt-0.5 font-mono text-[12px] text-ink-2">{route.phone}</p>
               </a>
             ))}
@@ -270,9 +342,9 @@ export default function TransportationPage() {
 
         {/* BUS SCHEDULE */}
         <div id="timetable" className="mt-20 scroll-mt-20">
-          <p className="eyebrow">Bus Schedule</p>
-          <h2 className="h-section mt-3">Full Timetable</h2>
-          <p className="body mt-2">Click a route to expand the full stop list.</p>
+          <p className="eyebrow">{c.scheduleEyebrow}</p>
+          <h2 className="h-section mt-3">{c.scheduleTitle}</h2>
+          <p className="body mt-2">{c.scheduleHint}</p>
 
           <div className="card mt-8 divide-y divide-hairline overflow-hidden">
             {schedules.map((s, i) => (
@@ -283,11 +355,11 @@ export default function TransportationPage() {
                   onClick={() => setOpenSchedule(openSchedule === i ? null : i)}
                 >
                   <div>
-                    <p className="text-[16px] font-semibold tracking-[-0.01em]">{s.title}</p>
+                    <p className="text-[16px] font-semibold tracking-[-0.01em]">{lang === "el" ? TITLES_EL[s.title] ?? s.title : s.title}</p>
                     <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
-                      <span className="text-ink-3">{s.days}</span>
-                      <span className="text-gold">Arrives {s.arrival}</span>
-                      <span className="text-ink-3">Departs {s.departure}</span>
+                      <span className="text-ink-3">{tr(s.days)}</span>
+                      <span className="text-gold">{c.arrives} {tr(s.arrival)}</span>
+                      <span className="text-ink-3">{c.departs} {tr(s.departure)}</span>
                     </div>
                   </div>
                   <span className={`ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-ink-2 transition-transform ${openSchedule === i ? "rotate-45" : ""}`}>+</span>
@@ -299,14 +371,14 @@ export default function TransportationPage() {
                       {s.stops.map((stop, j) => (
                         <li key={j} className="relative flex items-baseline justify-between gap-4 py-2">
                           <span className="absolute -left-[29px] top-[13px] h-2 w-2 rounded-full bg-navy" />
-                          <span className="text-[14px] text-ink-2">{stop.name}</span>
-                          <span className="shrink-0 font-mono text-[12px] text-ink">{stop.time}</span>
+                          <span className="text-[14px] text-ink-2">{stop.name === "Casino" ? c.casinoStop : stop.name}</span>
+                          <span className="shrink-0 font-mono text-[12px] text-ink">{tr(stop.time)}</span>
                         </li>
                       ))}
                       <li className="relative flex items-baseline justify-between gap-4 pt-3">
                         <span className="absolute -left-[31px] top-[17px] h-3 w-3 rounded-full bg-gold" />
                         <span className="text-[14px] font-semibold">Regency Casino Thessaloniki</span>
-                        <span className="shrink-0 font-mono text-[12px] text-gold">Departs {s.departure}</span>
+                        <span className="shrink-0 font-mono text-[12px] text-gold">{c.departs} {tr(s.departure)}</span>
                       </li>
                     </ol>
                   </div>
@@ -317,19 +389,19 @@ export default function TransportationPage() {
 
           {/* Legal notice */}
           <p className="mt-4 text-[12px] leading-5 text-ink-3">
-            Regulating Authority: HGC. Must be 21+ to enter. Frequent gambling may lead to addiction. Help line KETHEA-ALPHA: 210 921 5776. Play responsibly.
+            {c.legal}
           </p>
         </div>
 
         {/* REGENCY CTA */}
         <div className="card relative mt-12 overflow-hidden p-8 sm:p-12">
           <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-gold/15 blur-3xl" />
-          <p className="eyebrow">Our Client</p>
+          <p className="eyebrow">{c.clientEyebrow}</p>
           <h2 className="h-section mt-3 max-w-xl !text-[28px] sm:!text-[36px]">
             Regency Casino Thessaloniki
           </h2>
           <p className="body mt-3 max-w-lg">
-            View Ventures operates the complimentary transportation network for Regency Casino Thessaloniki — the premier entertainment destination in Northern Greece. Visit their official page for full service details and reservations.
+            {c.clientBody}
           </p>
           <a
             href="https://thessaloniki.regencycasinos.gr/en/services-en/free-transportation-en/"
@@ -337,7 +409,7 @@ export default function TransportationPage() {
             rel="noopener noreferrer"
             className="btn-primary mt-7"
           >
-            View Transportation Info
+            {c.clientButton}
             <span aria-hidden="true">↗</span>
           </a>
         </div>

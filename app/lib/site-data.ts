@@ -1,59 +1,79 @@
+// Ordered by what is live today: real estate and transportation first, upcoming verticals last.
 export const verticals = [
   {
-    slug: "travel",
-    name: "Travel",
-    summary:
-      "Curated partner experiences and itinerary-based travel products for premium and group segments.",
+    slug: "real-estate",
+    name: "Real Estate",
+    nameEl: "Ακίνητα",
+    summary: "Investment-led real estate strategy focused on resilient assets and long-horizon value.",
+    summaryEl: "Επενδυτική στρατηγική ακινήτων με έμφαση σε ανθεκτικά περιουσιακά στοιχεία και μακροπρόθεσμη αξία.",
     status: "Active",
+    statusEl: "Ενεργό",
+    upcoming: false,
   },
   {
     slug: "transportation",
     name: "Transportation",
-    summary:
-      "High-reliability movement services with route intelligence and demand-aware planning.",
+    nameEl: "Μεταφορές",
+    summary: "High-reliability movement services with route intelligence and demand-aware planning.",
+    summaryEl: "Υπηρεσίες μεταφοράς υψηλής αξιοπιστίας, με έξυπνο σχεδιασμό δρομολογίων βάσει ζήτησης.",
     status: "Active",
+    statusEl: "Ενεργό",
+    upcoming: false,
   },
   {
-    slug: "real-estate",
-    name: "Real Estate",
-    summary:
-      "Investment-led real estate strategy focused on resilient assets and long-horizon value.",
+    slug: "travel",
+    name: "Travel",
+    nameEl: "Ταξίδια",
+    summary: "Curated partner experiences and itinerary-based travel products for premium and group segments.",
+    summaryEl: "Επιλεγμένες εμπειρίες με συνεργάτες και οργανωμένα ταξίδια για premium και ομαδικό κοινό.",
     status: "Active",
+    statusEl: "Ενεργό",
+    upcoming: false,
   },
   {
     slug: "wellness",
     name: "Wellness",
-    summary:
-      "A developing vertical currently in product and business-model shaping phase.",
-    status: "In Development",
+    nameEl: "Ευεξία",
+    summary: "A developing vertical currently in product and business-model shaping phase.",
+    summaryEl: "Τομέας σε εξέλιξη, στη φάση διαμόρφωσης προϊόντος και επιχειρηματικού μοντέλου.",
+    status: "Coming soon",
+    statusEl: "Σύντομα",
+    upcoming: true,
   },
   {
     slug: "tech",
     name: "Tech",
-    summary:
-      "Technology products and systems with MVP launch readiness in the near term.",
-    status: "MVP in Progress",
+    nameEl: "Τεχνολογία",
+    summary: "Technology products and systems, with the MVP in final preparation.",
+    summaryEl: "Τεχνολογικά προϊόντα και συστήματα, με το MVP σε τελική προετοιμασία.",
+    status: "Coming soon",
+    statusEl: "Σύντομα",
+    upcoming: true,
   },
 ] as const;
 
 export const newsItems = [
   {
+    slug: "multi-vertical-operating-framework",
     title: "View Ventures Announces Multi-Vertical Operating Framework",
+    titleEl: "Η View Ventures ανακοινώνει πλαίσιο λειτουργίας σε πολλούς τομείς",
     date: "March 2026",
+    dateEl: "Μάρτιος 2026",
     summary:
       "The company formalizes its umbrella structure across transportation, travel, real estate, wellness, and technology.",
+    summaryEl:
+      "Η εταιρεία οργανώνει επίσημα τη δομή της σε μεταφορές, ταξίδια, ακίνητα, ευεξία και τεχνολογία.",
   },
   {
+    slug: "transportation-analytics-pilot",
     title: "Transportation Analytics Layer Entered Pilot Stage",
+    titleEl: "Σε πιλοτική φάση το σύστημα αναλύσεων για τις μεταφορές",
     date: "February 2026",
+    dateEl: "Φεβρουάριος 2026",
     summary:
       "Early dashboard prototypes now track route density, seasonal demand, and partnership reliability indicators.",
-  },
-  {
-    title: "Tech MVP Timeline Locked for Q2 Readiness",
-    date: "February 2026",
-    summary:
-      "The technology vertical has entered a final architecture and rollout preparation cycle.",
+    summaryEl:
+      "Τα πρώτα πρωτότυπα dashboards παρακολουθούν την πυκνότητα των δρομολογίων, την εποχική ζήτηση και δείκτες αξιοπιστίας συνεργασιών.",
   },
 ] as const;
 

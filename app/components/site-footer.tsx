@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useLanguage } from "../lib/i18n";
+import { verticals } from "../lib/site-data";
 import { ViewMark } from "./view-mark";
 
 export function SiteFooter() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const email = "hello@viewventures.co";
   return (
     <footer className="border-t border-hairline bg-surface-2">
@@ -15,7 +16,7 @@ export function SiteFooter() {
               <ViewMark size={28} />
               <span className="text-[13px] font-semibold">View Ventures</span>
             </div>
-            <p className="text-[13px] text-ink-3">Same foundation, Wider view.</p>
+            <p className="text-[13px] text-ink-3">{lang === "el" ? "Ίδιες βάσεις, ευρύτερη ματιά." : "Same foundation, Wider view."}</p>
             <p className="font-mono text-[11px] text-ink-3">ΓΕΜΗ: 043682706000 · ΑΦΜ: EL999261857</p>
           </div>
           <div className="flex gap-16">
@@ -35,13 +36,7 @@ export function SiteFooter() {
             </div>
             <div className="flex flex-col gap-2.5">
               <p className="text-[12px] font-semibold text-ink">{t("verticals")}</p>
-              {[
-                { label: "Real Estate", href: "/verticals/real-estate" },
-                { label: "Transportation", href: "/verticals/transportation" },
-                { label: "Tech", href: "/verticals/tech" },
-                { label: "Wellness", href: "/verticals/wellness" },
-                { label: "Travel", href: "/verticals/travel" },
-              ].map((item) => (
+              {verticals.map((v) => ({ label: lang === "el" ? v.nameEl : v.name, href: `/verticals/${v.slug}` })).map((item) => (
                 <Link key={item.label} href={item.href} className="text-[12px] text-ink-2 transition-colors hover:text-ink">
                   {item.label}
                 </Link>
