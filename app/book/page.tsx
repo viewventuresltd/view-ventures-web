@@ -9,7 +9,7 @@ export default function BookPage() {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
-      <main className="page pb-24 pt-14 sm:pt-20">
+      <main className="pb-12">
         <CoachRequest />
       </main>
       <SiteFooter />
