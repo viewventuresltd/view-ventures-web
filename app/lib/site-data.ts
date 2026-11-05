@@ -44,11 +44,11 @@ export const verticals = [
     slug: "tech",
     name: "Tech",
     nameEl: "Τεχνολογία",
-    summary: "Technology products and systems, with the MVP in final preparation.",
-    summaryEl: "Τεχνολογικά προϊόντα και συστήματα, με το MVP σε τελική προετοιμασία.",
-    status: "Coming soon",
-    statusEl: "Σύντομα",
-    upcoming: true,
+    summary: "AI products built from real operating experience, featuring Nestor, a scalable AI startup for real estate.",
+    summaryEl: "Προϊόντα AI από πραγματική επιχειρηματική εμπειρία, με το Nestor, μια scalable startup AI για τα ακίνητα.",
+    status: "Pre-seed",
+    statusEl: "Pre-seed",
+    upcoming: false,
   },
 ] as const;
 
